@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node dist/bundle.js",
-    "build": "webpack --mode=production --config webpack.config.js",
+    "build": "webpack --watch --mode=production --config webpack.config.js",
     "test": "npm run test"
   },
   "author": "YouSee",
