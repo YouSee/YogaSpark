@@ -1,35 +1,31 @@
-import moment from "moment";
+import yoga, { Node } from 'yoga-layout'
+import { Position, OverFlow, AlignItems, JustifyContent, FlexDirection, FlexWrap, Style } from './layout'
+import { initView, view } from './view'
 
 px.import("px:scene.1.js").then(function ready(scene) {
-  var root = scene.root;
-  root.h = 1000;
+  const rootView = view({
+    flexDirection: FlexDirection.Row,
+    justifyContent: JustifyContent.Center,
+    alignItems: AlignItems.Center,
+    width: 500,
+    height: 200,
+  }, [view({ height: 50, width: 50 }, []), view({ height: 50, width: 40 }, [])]
+  )
 
-  var t = scene.create({
+  console.log('rootview', rootView)
+
+  const { left, top, width, height } = initView(rootView, scene)
+
+  console.log('here', left, top, width, height)
+  scene.create({
     t: "rect",
-    y: 20,
-    parent: root,
-    w: 200,
-    h: 300,
-    cx: 200 / 2,
-    cy: 300 / 2,
-    ry: 1,
-    rz: 0,
+    parent: scene.root,
+    y: left,
+    x: top,
+    w: width,
+    h: height,
     fillColor: 0x00000070
-  });
-
-  var dtlTitle = scene.create({
-    t: "textBox",
-    parent: root,
-    x: 500,
-    w: 500,
-    h: 300,
-    y: 28,
-    wordWrap: true,
-    pixelSize: 40,
-    leading: -10,
-    textColor: 0xffffffff,
-    text: `hej med dig ${moment().toDate()}`
-  });
+  })
 
   scene.on("onClose", function (e) {
     console.log("Coverflowtest got OnClose");
