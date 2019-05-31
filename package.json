@@ -4,9 +4,9 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "npm run build && npm run build:watch | nodemon --watch dist server/index.js",
-    "build": "webpack --mode=production --config webpack.config.js",
-    "build:watch": "npm run build -- -watch",
+    "start": "npm run build-reload && npm run build | nodemon --signal SIGHUP --watch dist server/index.js",
+    "build": "webpack --watch --mode=production --config webpack.config.js",
+    "build-reload": "babel './src/hotreload.js' --out-dir dist --presets=@babel/preset-env",
     "test": "npm run test"
   },
   "author": "YouSee",
@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "moment": "^2.24.0",
+    "ws": "^7.0.0",
     "yoga-layout": "^1.9.3"
   }
 }
