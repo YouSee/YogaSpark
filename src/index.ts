@@ -9,7 +9,11 @@ px.import("px:scene.1.js").then(function ready(scene) {
     alignItems: AlignItems.Center,
     width: 500,
     height: 200,
-  }, [view({ height: 50, width: 50 }, []), view({ height: 50, width: 40 }, [])]
+  }, [
+      view({ height: 50, width: 50 }, []),
+      view({ height: 50, width: 40 }, [
+        view({ height: 50, width: 40 }, [])
+      ])]
   )
 
   console.log('rootview', rootView)
