@@ -1,6 +1,11 @@
 // https://github.com/facebook/yoga/blob/master/javascript/sources/YGEnums.js
 import yoga from 'yoga-layout'
 
+export enum Display {
+  Flex = yoga.DISPLAY_FLEX,
+  None = yoga.DISPLAY_NONE
+}
+
 export enum Position {
   Relative = yoga.POSITION_TYPE_RELATIVE,
   Absolute = yoga.POSITION_TYPE_ABSOLUTE
@@ -44,12 +49,14 @@ export enum FlexWrap {
 }
 
 export interface Style {
+  display?: Display,
   position?: Position,
   overflow?: Overflow,
   alignItems?: AlignItems,
   justifyContent?: JustifyContent,
   flexDirection?: FlexDirection,
   flexWrap?: FlexWrap,
+  flexGrow?: number,
   width?: number,
   height?: number,
 }
