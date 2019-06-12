@@ -3,28 +3,33 @@ import { Display, Position, OverFlow, AlignItems, JustifyContent, FlexDirection,
 import { initView, view } from './view'
 
 px.import("px:scene.1.js").then(function ready(scene) {
+  const viewChildren: Array<null> = [...Array(12)]
+  const childStyle: Style = {
+    flexGrow: 1,
+    height: 200,
+    marginRight: 5,
+    marginLeft: 5,
+    marginTop: 5,
+    marginBottom: 5,
+    flexBasis: '20%',
+  }
   const [rootView, ...children] = view({
     display: Display.Flex,
     flexDirection: FlexDirection.Row,
-    //justifyContent: JustifyContent.Center,
-    //alignItems: AlignItems.Center,
+    flexWrap: FlexWrap.Wrap,
     width: 1000,
     height: 800,
-  }, [
-      view({ flexGrow: 1 }, []),
-      view({ flexGrow: 1 }, []),
-      view({ flexGrow: 1 }, []),
-      view({ flexGrow: 1 }, []),
-    ]
+  }, viewChildren.map(() => view(childStyle, []))
   )
 
   const { left, top, width, height } = initView(rootView, scene)
 
+  console.log('here root', JSON.stringify({left, top, width, height }))
   scene.create({
     t: "rect",
     parent: scene.root,
-    y: left,
-    x: top,
+    y: top,
+    x: left,
     w: width,
     h: height,
     fillColor: 0x00000070
@@ -32,12 +37,12 @@ px.import("px:scene.1.js").then(function ready(scene) {
 
   children.map(child => {
     const { left, top, width, height } = child.getComputedLayout()
-    console.log('here', left, top, width, height)
+    console.log('here', JSON.stringify({left, top, width, height}))
     scene.create({
       t: "rect",
       parent: scene.root,
-      y: left,
-      x: top,
+      y: top,
+      x: left,
       w: width,
       h: height,
       fillColor: 0x00000072

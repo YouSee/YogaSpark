@@ -1,5 +1,5 @@
 import yoga, { Node } from 'yoga-layout'
-import { Position, OverFlow, AlignItems, JustifyContent, FlexDirection, FlexWrap, Style } from './layout'
+import { Position, OverFlow, AlignItems, JustifyContent, FlexDirection, FlexWrap, Padding, Style } from './layout'
 
 const WINDOW_WIDTH = 1280
 const WINDOW_HEIGHT = 720
@@ -18,6 +18,16 @@ export const createNode = (style: Style): Node => {
   if (style.flexDirection) node.setFlexDirection(style.flexDirection)
   if (style.flexWrap) node.setFlexWrap(style.flexWrap)
   if (style.flexGrow) node.setFlexGrow(style.flexGrow)
+  if (style.flexShrink) node.setFlexShrink(style.flexShrink)
+  if (style.flexBasis) node.setFlexBasis(style.flexBasis)
+  if (style.paddingRight) node.setPadding(Padding.Right, style.paddingRight)
+  if (style.paddingLeft) node.setPadding(Padding.Left, style.paddingLeft)
+  if (style.paddingBottom) node.setPadding(Padding.Bottom, style.paddingBottom)
+  if (style.paddingTop) node.setPadding(Padding.Top, style.paddingTop)
+  if (style.marginRight) node.setMargin(Padding.Right, style.marginRight)
+  if (style.marginLeft) node.setMargin(Padding.Left, style.marginLeft)
+  if (style.marginBottom) node.setMargin(Padding.Bottom, style.marginBottom)
+  if (style.marginTop) node.setMargin(Padding.Top, style.marginTop)
   if (style.height) node.setHeight(style.height)
   if (style.width) node.setWidth(style.width)
   return node
@@ -25,6 +35,7 @@ export const createNode = (style: Style): Node => {
 
 export const view = (style: Style, children: Array<Node>) => {
   const node = createNode(style)
+  node.setMeasureFunc(yoga.MEASURE_MODE_UNDEFINED)
   const flattenedChildren = flatten(children)
   if (flattenedChildren && flattenedChildren.length > 0)
     flattenedChildren.map((child: Node, index: number) => {
@@ -37,6 +48,6 @@ export const initView = (node: Node, scene: any) => {
   const { root } = scene
   root.h = WINDOW_HEIGHT
   root.w = WINDOW_WIDTH
-  node.calculateLayout(WINDOW_WIDTH, WINDOW_HEIGHT, yoga.DIRECTION_INHERIT);
+  node.calculateLayout(yoga.UNDEFINED, yoga.UNDEFINED, yoga.DIRECTION_RTL);
   return node.getComputedLayout()
 }
