@@ -1,3 +1,4 @@
+const WebpackPluginSpark = require('webpack-plugin-spark');
 const path = require('path');
 
 module.exports = {
@@ -18,6 +19,13 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js']
   },
+  plugins: [
+    new WebpackPluginSpark({
+      progress: true,
+      liveReload: true,
+      static: path.join(__dirname, './dist')
+    })
+  ],
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist')
