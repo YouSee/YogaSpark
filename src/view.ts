@@ -1,12 +1,26 @@
 import yoga, { Node } from 'yoga-layout'
-import { Position, OverFlow, AlignItems, JustifyContent, FlexDirection, FlexWrap, Padding, Style } from './layout'
+import {
+  Position,
+  OverFlow,
+  AlignItems,
+  JustifyContent,
+  FlexDirection,
+  FlexWrap,
+  Padding,
+  Style,
+} from './layout'
 
 const WINDOW_WIDTH = 1280
 const WINDOW_HEIGHT = 720
 
-export const flatten = (list: Array<any>): Array<any> => list.reduce(
-  (a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []
-)
+export const flatten = (list: Array<any>): Array<any> =>
+  list.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), [])
+
+export const createYogaStyleObject = (
+  node: Node,
+  style: Style,
+  children: Array<Node>,
+) => ({ node, style, children })
 
 export const createNode = (style: Style): Node => {
   const node = Node.create()
@@ -35,19 +49,17 @@ export const createNode = (style: Style): Node => {
 
 export const view = (style: Style, children: Array<Node>) => {
   const node = createNode(style)
-  node.setMeasureFunc(yoga.MEASURE_MODE_UNDEFINED)
-  const flattenedChildren = flatten(children)
-  if (flattenedChildren && flattenedChildren.length > 0)
-    flattenedChildren.map((child: Node, index: number) => {
-      !child.getParent() && node.insertChild(child, index)
+  if (children && children.length > 0)
+    children.map(({ node: childNode }: Node, index: number) => {
+      node.insertChild(childNode, index)
     })
-  return [node, ...flattenedChildren]
+  return createYogaStyleObject(node, style, children)
 }
 
 export const initView = (node: Node, scene: any) => {
   const { root } = scene
   root.h = WINDOW_HEIGHT
   root.w = WINDOW_WIDTH
-  node.calculateLayout(yoga.UNDEFINED, yoga.UNDEFINED, yoga.DIRECTION_RTL);
+  node.calculateLayout(yoga.UNDEFINED, yoga.UNDEFINED, yoga.DIRECTION_LTR)
   return node.getComputedLayout()
 }
