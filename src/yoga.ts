@@ -1,26 +1,18 @@
 import yoga, { Node } from 'yoga-layout'
-import {
-  Position,
-  OverFlow,
-  AlignItems,
-  JustifyContent,
-  FlexDirection,
-  FlexWrap,
-  Padding,
-  Style,
-} from './layout'
+import { Padding, Style } from './layout'
+import { Props } from './components'
+import { recursivelyRenderNodes } from './spark'
 
-const WINDOW_WIDTH = 1280
-const WINDOW_HEIGHT = 720
-
-export const flatten = (list: Array<any>): Array<any> =>
-  list.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), [])
+export const WINDOW_WIDTH = 1280
+export const WINDOW_HEIGHT = 720
 
 export const createYogaStyleObject = (
+  type: string,
   node: Node,
+  props: Props,
   style: Style,
   children: Array<Node>,
-) => ({ node, style, children })
+) => ({ type, node, props, style, children })
 
 export const createNode = (style: Style): Node => {
   const node = Node.create()
@@ -47,19 +39,24 @@ export const createNode = (style: Style): Node => {
   return node
 }
 
-export const view = (style: Style, children: Array<Node>) => {
+export const createNodeTree = (
+  type: string,
+  props: Props,
+  style: Style,
+  children: Array<Node>,
+) => {
   const node = createNode(style)
   if (children && children.length > 0)
     children.map(({ node: childNode }: Node, index: number) => {
       node.insertChild(childNode, index)
     })
-  return createYogaStyleObject(node, style, children)
+  return createYogaStyleObject(type, node, props, style, children)
 }
 
-export const initView = (node: Node, scene: any) => {
+export const initView = (views: any, scene: any) => {
   const { root } = scene
   root.h = WINDOW_HEIGHT
   root.w = WINDOW_WIDTH
-  node.calculateLayout(yoga.UNDEFINED, yoga.UNDEFINED, yoga.DIRECTION_LTR)
-  return node.getComputedLayout()
+  views.node.calculateLayout(yoga.UNDEFINED, yoga.UNDEFINED, yoga.DIRECTION_LTR)
+  return recursivelyRenderNodes(scene, root, views)
 }

@@ -1,45 +1,16 @@
-import yoga, { Node } from 'yoga-layout'
 import {
   Display,
-  Position,
-  OverFlow,
   AlignItems,
   JustifyContent,
   FlexDirection,
   FlexWrap,
   Style,
 } from './layout'
-import { initView, view } from './view'
-
-const renderElement = (scene, parent, nodeObject) => {
-  const { node } = nodeObject
-  const { left, top, width, height } = node.getComputedLayout()
-  console.log('here', JSON.stringify({ left, top, width, height }))
-  const element = scene.create({
-    t: 'rect',
-    parent,
-    y: top,
-    x: left,
-    w: width,
-    h: height,
-    fillColor: 0x00000070,
-  })
-  console.log('rendered')
-  return { element, ...nodeObject }
-}
-
-const recursivelyRenderNodes = (scene, parent, data) => {
-  parent = renderElement(scene, parent, data)
-  return {
-    ...parent,
-    children: data.children.map(child =>
-      recursivelyRenderNodes(scene, parent.element, child),
-    ),
-  }
-}
+import { initView, WINDOW_WIDTH, WINDOW_HEIGHT } from './yoga'
+import { scene as createScene, view, image } from './components'
 
 px.import('px:scene.1.js').then(function ready(scene) {
-  const viewChildren: Array<null> = [...Array(12)]
+  const viewChildren: Array<null> = [...Array(100 * 2)]
   const childStyle: Style = {
     flexGrow: 1,
     height: 200,
@@ -51,38 +22,36 @@ px.import('px:scene.1.js').then(function ready(scene) {
     justifyContent: JustifyContent.Center,
     alignItems: AlignItems.Center,
   }
-  const views = view(
-    {
-      display: Display.Flex,
-      flexDirection: FlexDirection.Row,
-      flexWrap: FlexWrap.Wrap,
-      width: 1000,
-      height: 800,
-    },
-    viewChildren.map(() =>
-      view(childStyle, [view({ height: 10, width: 10 }, [])]),
-    ),
-  )
 
-  const { left, top, width, height } = initView(views.node, scene)
-  const viewsWithElements = recursivelyRenderNodes(scene, scene.root, views)
-  console.log('here', JSON.stringify(viewsWithElements, null, 4))
-  /*
+  let views = { element: false }
+  setInterval(() => {
+    views = initView(
+      {
+        element: views.element,
+        ...createScene(
+          {
+            display: Display.Flex,
+            flexDirection: FlexDirection.Row,
+            flexWrap: FlexWrap.Wrap,
+            width: WINDOW_WIDTH,
+            height: WINDOW_HEIGHT,
+          },
+          viewChildren.map(() =>
+            image(
+              {
+                url:
+                  'https://scaled.yousee.tv/web?url=https%3A%2F%2Fimages.yousee.tv%2Fpics%2F179583726%2F1920x1080.jpg&width=1280&height=720',
+              },
+              childStyle,
+              [view({ height: 10, width: 10 }, [])],
+            ),
+          ),
+        ),
+      },
+      scene,
+    )
+  }, 5000)
 
-  children.map(child => {
-    const { left, top, width, height } = child.getComputedLayout()
-    console.log('here', JSON.stringify({left, top, width, height}))
-    scene.create({
-      t: "rect",
-      parent: scene.root,
-      y: top,
-      x: left,
-      w: width,
-      h: height,
-      fillColor: 0x00000072
-    })
-  })
-  */
   scene.on('onClose', function(e) {
     console.log('Coverflowtest got OnClose')
   })
