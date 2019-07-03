@@ -48,6 +48,13 @@ export enum FlexWrap {
   WrapReverse = yoga.WRAP_REVERSE,
 }
 
+export enum Padding {
+  Right = yoga.EDGE_RIGHT,
+  Left = yoga.EDGE_LEFT,
+  Top = yoga.EDGE_TOP,
+  Bottom = yoga.EDGE_BOTTOM
+}
+
 export interface Style {
   display?: Display,
   position?: Position,
@@ -57,6 +64,16 @@ export interface Style {
   flexDirection?: FlexDirection,
   flexWrap?: FlexWrap,
   flexGrow?: number,
-  width?: number,
+  flexShrink?: number,
+  flexBasis?: number | string,
+  paddingLeft?: number,
+  paddingRight?: number,
+  paddingTop?: number,
+  paddingBottom?: number,
+  marginLeft?: number,
+  marginRight?: number,
+  marginTop?: number,
+  marginBottom?: number,
+  width?: number | string,
   height?: number,
 }
