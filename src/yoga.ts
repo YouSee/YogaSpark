@@ -53,10 +53,10 @@ export const createNodeTree = (
   return createYogaStyleObject(type, node, props, style, children)
 }
 
-export const initView = (views: any, scene: any) => {
+export const initView = (views: any, previousViews: any, scene: any) => {
   const { root } = scene
   root.h = WINDOW_HEIGHT
   root.w = WINDOW_WIDTH
   views.node.calculateLayout(yoga.UNDEFINED, yoga.UNDEFINED, yoga.DIRECTION_LTR)
-  return recursivelyRenderNodes(scene, root, views)
+  return recursivelyRenderNodes(scene, root, views, previousViews)
 }

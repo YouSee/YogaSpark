@@ -7,7 +7,7 @@ import {
   Style,
 } from './layout'
 import { initView, WINDOW_WIDTH, WINDOW_HEIGHT } from './yoga'
-import { scene as createScene, view, image } from './components'
+import { scene as createScene, view, image, text } from './components'
 
 px.import('px:scene.1.js').then(function ready(scene) {
   const viewChildren: Array<null> = [...Array(100 * 2)]
@@ -23,31 +23,40 @@ px.import('px:scene.1.js').then(function ready(scene) {
     alignItems: AlignItems.Center,
   }
 
-  let views = { element: false }
+  let previousViews
   setInterval(() => {
-    views = initView(
-      {
-        element: views.element,
-        ...createScene(
-          {
-            display: Display.Flex,
-            flexDirection: FlexDirection.Row,
-            flexWrap: FlexWrap.Wrap,
-            width: WINDOW_WIDTH,
-            height: WINDOW_HEIGHT,
-          },
-          viewChildren.map(() =>
-            image(
-              {
-                url:
-                  'https://scaled.yousee.tv/web?url=https%3A%2F%2Fimages.yousee.tv%2Fpics%2F179583726%2F1920x1080.jpg&width=1280&height=720',
-              },
-              childStyle,
-              [view({ height: 10, width: 10 }, [])],
-            ),
+    previousViews = initView(
+      createScene(
+        {
+          display: Display.Flex,
+          flexDirection: FlexDirection.Row,
+          flexWrap: FlexWrap.Wrap,
+          width: WINDOW_WIDTH,
+          height: WINDOW_HEIGHT,
+        },
+        viewChildren.map(() =>
+          image(
+            {
+              url:
+                'https://scaled.yousee.tv/web?url=https%3A%2F%2Fimages.yousee.tv%2Fpics%2F179583726%2F1920x1080.jpg&width=1280&height=720',
+            },
+            childStyle,
+            [
+              view(
+                { fillColor: 'Red' },
+                {
+                  height: 100,
+                  width: 100,
+                  justifyContent: JustifyContent.Center,
+                  alignItems: AlignItems.Center,
+                },
+                [text({ text: 'nej' }, {}, [])],
+              ),
+            ],
           ),
         ),
-      },
+      ),
+      previousViews,
       scene,
     )
   }, 5000)

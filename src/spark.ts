@@ -14,7 +14,6 @@ export const renderElement = (scene, parent, nodeObject) => {
       h: height,
       stretchX: scene.stretch.STRETCH,
       stretchY: scene.stretch.STRETCH,
-      fillColor: 0x00000070,
     })
   } else {
     element.animateTo(
@@ -27,12 +26,22 @@ export const renderElement = (scene, parent, nodeObject) => {
   return { ...nodeObject, element }
 }
 
-export const recursivelyRenderNodes = (scene, parent, data) => {
-  parent = renderElement(scene, parent, data)
+export const recursivelyRenderNodes = (scene, parent, newNode, oldNode) => {
+  if (!oldNode) parent = renderElement(scene, parent, newNode)
+  if (oldNode && newNode)
+    parent = renderElement(scene, parent, {
+      ...newNode,
+      element: oldNode.element,
+    })
   return {
     ...parent,
-    children: data.children.map(child =>
-      recursivelyRenderNodes(scene, parent.element, child),
+    children: newNode.children.map((child, idx) =>
+      recursivelyRenderNodes(
+        scene,
+        parent.element,
+        child,
+        oldNode && oldNode.children[idx],
+      ),
     ),
   }
 }
