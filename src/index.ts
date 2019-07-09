@@ -6,10 +6,11 @@ import {
   FlexWrap,
   Style,
 } from './layout'
-import { initView, WINDOW_WIDTH, WINDOW_HEIGHT } from './yoga'
+import { initView, WINDOW_WIDTH, WINDOW_HEIGHT, ViewElement } from './yoga'
+import { SparkScene, SparkSceneEvents } from './spark'
 import { scene as createScene, view, image, text } from './components'
 
-px.import('px:scene.1.js').then(function ready(scene) {
+px.import('px:scene.1.js').then(function ready(scene: SparkScene) {
   const viewChildren: Array<null> = [...Array(100 * 2)]
   const childStyle: Style = {
     flexGrow: 1,
@@ -23,7 +24,7 @@ px.import('px:scene.1.js').then(function ready(scene) {
     alignItems: AlignItems.Center,
   }
 
-  let previousViews
+  let previousViews: ViewElement
   setInterval(() => {
     previousViews = initView(
       createScene(
@@ -61,7 +62,7 @@ px.import('px:scene.1.js').then(function ready(scene) {
     )
   }, 5000)
 
-  scene.on('onClose', function(e) {
+  scene.on(SparkSceneEvents.OnClose, e => {
     console.log('Coverflowtest got OnClose')
   })
 })

@@ -1,5 +1,6 @@
 import { Style } from './layout'
-import { createNodeTree } from './yoga'
+import { createNodeTree, ViewElement } from './yoga'
+import { SparkObjectTypes } from './spark'
 
 export interface Props {
   url?: string
@@ -7,14 +8,25 @@ export interface Props {
   fillColor?: string
 }
 
-export const scene = (style: Style, children: Array<Node>) =>
-  createNodeTree('scene', {}, style, children)
+export const scene = (
+  style: Style,
+  children: Array<ViewElement>,
+): ViewElement => createNodeTree(SparkObjectTypes.Scene, {}, style, children)
 
-export const view = (props: Props, style: Style, children: Array<Node>) =>
-  createNodeTree('rect', props, style, children)
+export const view = (
+  props: Props,
+  style: Style,
+  children: Array<ViewElement>,
+): ViewElement => createNodeTree(SparkObjectTypes.Rect, props, style, children)
 
-export const image = (props: Props, style: Style, children: Array<Node>) =>
-  createNodeTree('image', props, style, children)
+export const image = (
+  props: Props,
+  style: Style,
+  children: Array<ViewElement>,
+): ViewElement => createNodeTree(SparkObjectTypes.Image, props, style, children)
 
-export const text = (props: Props, style: Style, children: Array<Node>) =>
-  createNodeTree('text', props, style, children)
+export const text = (
+  props: Props,
+  style: Style,
+  children: Array<ViewElement>,
+): ViewElement => createNodeTree(SparkObjectTypes.Text, props, style, children)
