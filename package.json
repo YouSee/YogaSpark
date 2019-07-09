@@ -4,9 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "npm run build-reload && npm run build | nodemon --signal SIGHUP --watch dist server/index.js",
-    "build": "webpack --watch --mode=production --config webpack.config.js",
-    "build-reload": "babel './src/hotreload.js' --out-dir dist --presets=@babel/preset-env",
+    "start": "webpack --watch --mode=production --config webpack.config.js",
     "test": "npm run test"
   },
   "author": "YouSee",
@@ -22,7 +20,8 @@
     "source-map-loader": "^0.2.4",
     "typescript": "^3.5.1",
     "webpack": "^4.32.2",
-    "webpack-cli": "^3.3.2"
+    "webpack-cli": "^3.3.2",
+    "webpack-plugin-spark": "^1.0.0"
   },
   "dependencies": {
     "moment": "^2.24.0",
