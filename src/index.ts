@@ -1,9 +1,9 @@
 import {
-  Display,
-  AlignItems,
-  JustifyContent,
-  FlexDirection,
-  FlexWrap,
+  JUSTIFY_CONTENT,
+  ALIGN,
+  DISPLAY,
+  FLEX_DIRECTION,
+  FLEX_WRAP,
   Style,
 } from './yoga/types'
 import { initView, WINDOW_WIDTH, WINDOW_HEIGHT, ViewElement } from './yoga'
@@ -20,8 +20,8 @@ px.import('px:scene.1.js').then(function ready(scene: SparkScene) {
     marginTop: 5,
     marginBottom: 5,
     flexBasis: '20%',
-    justifyContent: JustifyContent.Center,
-    alignItems: AlignItems.Center,
+    justifyContent: JUSTIFY_CONTENT.JUSTIFY_CENTER,
+    alignItems: ALIGN.ALIGN_CENTER,
   }
 
   let previousViews: ViewElement
@@ -29,9 +29,9 @@ px.import('px:scene.1.js').then(function ready(scene: SparkScene) {
     previousViews = initView(
       createScene(
         {
-          display: Display.Flex,
-          flexDirection: FlexDirection.Row,
-          flexWrap: FlexWrap.Wrap,
+          display: DISPLAY.DISPLAY_FLEX,
+          flexDirection: FLEX_DIRECTION.FLEX_DIRECTION_ROW,
+          flexWrap: FLEX_WRAP.WRAP_WRAP,
           width: WINDOW_WIDTH,
           height: WINDOW_HEIGHT,
         },
@@ -48,8 +48,8 @@ px.import('px:scene.1.js').then(function ready(scene: SparkScene) {
                 {
                   height: 100,
                   width: 100,
-                  justifyContent: JustifyContent.Center,
-                  alignItems: AlignItems.Center,
+                  justifyContent: JUSTIFY_CONTENT.JUSTIFY_CENTER,
+                  alignItems: ALIGN.ALIGN_CENTER,
                 },
                 [text({ text: 'nej' }, {}, [])],
               ),

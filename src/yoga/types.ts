@@ -1,68 +1,122 @@
 // https://github.com/facebook/yoga/blob/master/javascript/sources/YGEnums.js
-import yoga from 'yoga-layout'
+import {
+  YogaDisplay,
+  YogaPositionType,
+  YogaOverflow,
+  YogaAlign,
+  YogaJustifyContent,
+  YogaFlexDirection,
+  YogaFlexWrap,
+  EDGE_LEFT,
+  EDGE_TOP,
+  EDGE_RIGHT,
+  EDGE_BOTTOM,
+  EDGE_START,
+  EDGE_END,
+  EDGE_HORIZONTAL,
+  EDGE_VERTICAL,
+  EDGE_ALL,
+  DISPLAY_FLEX,
+  DISPLAY_NONE,
+  POSITION_TYPE_ABSOLUTE,
+  POSITION_TYPE_RELATIVE,
+  OVERFLOW_HIDDEN,
+  OVERFLOW_SCROLL,
+  OVERFLOW_VISIBLE,
+  ALIGN_AUTO,
+  ALIGN_BASELINE,
+  ALIGN_CENTER,
+  ALIGN_FLEX_END,
+  ALIGN_FLEX_START,
+  ALIGN_SPACE_AROUND,
+  ALIGN_SPACE_BETWEEN,
+  ALIGN_STRETCH,
+  JUSTIFY_CENTER,
+  JUSTIFY_FLEX_END,
+  JUSTIFY_FLEX_START,
+  JUSTIFY_SPACE_AROUND,
+  JUSTIFY_SPACE_BETWEEN,
+  JUSTIFY_SPACE_EVENLY,
+  FLEX_DIRECTION_COLUMN,
+  FLEX_DIRECTION_COLUMN_REVERSE,
+  FLEX_DIRECTION_COUNT,
+  FLEX_DIRECTION_ROW,
+  FLEX_DIRECTION_ROW_REVERSE,
+  WRAP_NO_WRAP,
+  WRAP_WRAP,
+  WRAP_WRAP_REVERSE,
+} from 'yoga-layout'
 
-export enum Display {
-  Flex = yoga.DISPLAY_FLEX,
-  None = yoga.DISPLAY_NONE,
+export const EDGES = {
+  EDGE_LEFT,
+  EDGE_TOP,
+  EDGE_RIGHT,
+  EDGE_BOTTOM,
+  EDGE_START,
+  EDGE_END,
+  EDGE_HORIZONTAL,
+  EDGE_VERTICAL,
+  EDGE_ALL,
 }
 
-export enum Position {
-  Relative = yoga.POSITION_TYPE_RELATIVE,
-  Absolute = yoga.POSITION_TYPE_ABSOLUTE,
+export const DISPLAY = {
+  DISPLAY_FLEX,
+  DISPLAY_NONE,
 }
 
-export enum Overflow {
-  Visible = yoga.OVERFLOW_VISIBLE,
-  Hidden = yoga.OVERFLOW_HIDDEN,
-  Scroll = yoga.OVERFLOW_SCROLL,
+export const POSITION = {
+  POSITION_TYPE_ABSOLUTE,
+  POSITION_TYPE_RELATIVE,
 }
 
-export enum AlignItems {
-  Auto = yoga.ALIGN_AUTO,
-  FlexStart = yoga.ALIGN_FLEX_START,
-  Center = yoga.ALIGN_CENTER,
-  FlexEnd = yoga.ALIGN_FLEX_END,
-  Stretch = yoga.ALIGN_STRETCH,
-  Baseline = yoga.BASELINE,
-  SpaceBetween = yoga.ALIGN_SPACE_BETWEEN,
-  SpaceAround = yoga.ALIGN_SPACE_AROUND,
+export const OVERFLOW = {
+  OVERFLOW_HIDDEN,
+  OVERFLOW_SCROLL,
+  OVERFLOW_VISIBLE,
 }
 
-export enum JustifyContent {
-  FlexStart = yoga.JUSTIFY_FLEX_START,
-  Center = yoga.JUSTIFY_CENTER,
-  FlexEnd = yoga.JUSTIFY_FLEX_END,
-  SpaceBetween = yoga.JUSTIFY_SPACE_BETWEEN,
-  SpaceAround = yoga.JUSTIFY_SPACE_AROUND,
-  SpaceEvenly = yoga.JUSTIFY_SPACE_EVENLY,
+export const ALIGN = {
+  ALIGN_AUTO,
+  ALIGN_BASELINE,
+  ALIGN_CENTER,
+  ALIGN_FLEX_END,
+  ALIGN_FLEX_START,
+  ALIGN_SPACE_AROUND,
+  ALIGN_SPACE_BETWEEN,
+  ALIGN_STRETCH,
 }
 
-export enum FlexDirection {
-  Column = yoga.FLEX_DIRECTION_COLUMN,
-  Row = yoga.FLEX_DIRECTION_ROW,
+export const JUSTIFY_CONTENT = {
+  JUSTIFY_CENTER,
+  JUSTIFY_FLEX_END,
+  JUSTIFY_FLEX_START,
+  JUSTIFY_SPACE_AROUND,
+  JUSTIFY_SPACE_BETWEEN,
+  JUSTIFY_SPACE_EVENLY,
 }
 
-export enum FlexWrap {
-  Wrap = yoga.WRAP_WRAP,
-  NoWrap = yoga.WRAP_NO_WRAP,
-  WrapReverse = yoga.WRAP_REVERSE,
+export const FLEX_DIRECTION = {
+  FLEX_DIRECTION_COLUMN,
+  FLEX_DIRECTION_COLUMN_REVERSE,
+  FLEX_DIRECTION_COUNT,
+  FLEX_DIRECTION_ROW,
+  FLEX_DIRECTION_ROW_REVERSE,
 }
 
-export enum Padding {
-  Right = yoga.EDGE_RIGHT,
-  Left = yoga.EDGE_LEFT,
-  Top = yoga.EDGE_TOP,
-  Bottom = yoga.EDGE_BOTTOM,
+export const FLEX_WRAP = {
+  WRAP_NO_WRAP,
+  WRAP_WRAP,
+  WRAP_WRAP_REVERSE,
 }
 
 export interface Style {
-  display?: Display
-  position?: Position
-  overflow?: Overflow
-  alignItems?: AlignItems
-  justifyContent?: JustifyContent
-  flexDirection?: FlexDirection
-  flexWrap?: FlexWrap
+  display?: YogaDisplay
+  position?: YogaPositionType
+  overflow?: YogaOverflow
+  alignItems?: YogaAlign
+  justifyContent?: YogaJustifyContent
+  flexDirection?: YogaFlexDirection
+  flexWrap?: YogaFlexWrap
   flexGrow?: number
   flexShrink?: number
   flexBasis?: number | string

@@ -1,5 +1,5 @@
-import yoga, { Node } from 'yoga-layout'
-import { Padding, Style } from './types'
+import yoga, { Node, YogaNode } from 'yoga-layout'
+import { EDGES, Style } from './types'
 import { Props } from '../components'
 import { SparkObject, SparkScene, SparkObjectTypes } from '../spark/types'
 import { recursivelyRenderNodes } from '../spark'
@@ -9,25 +9,24 @@ export const WINDOW_HEIGHT = 720
 
 export interface ViewElement {
   type: SparkObjectTypes
-  node: Node
+  node: YogaNode
   props: Props
   style: Style
   element?: SparkObject
   children: Array<ViewElement>
 }
 
-export const createYogaStyleObject = (
+export const createViewElement = (
   type: SparkObjectTypes,
-  node: Node,
+  node: YogaNode,
   props: Props,
   style: Style,
   children: Array<ViewElement>,
 ): ViewElement => ({ type, node, props, style, children })
 
-export const createNode = (style: Style): Node => {
-  const node = Node.create()
+export const createNode = (style: Style): YogaNode => {
+  const node: YogaNode = Node.create()
   if (style.display) node.setDisplay(style.display)
-  if (style.position) node.setPosition(style.position)
   if (style.overflow) node.setOverflow(style.overflow)
   if (style.alignItems) node.setAlignItems(style.alignItems)
   if (style.justifyContent) node.setJustifyContent(style.justifyContent)
@@ -36,14 +35,15 @@ export const createNode = (style: Style): Node => {
   if (style.flexGrow) node.setFlexGrow(style.flexGrow)
   if (style.flexShrink) node.setFlexShrink(style.flexShrink)
   if (style.flexBasis) node.setFlexBasis(style.flexBasis)
-  if (style.paddingRight) node.setPadding(Padding.Right, style.paddingRight)
-  if (style.paddingLeft) node.setPadding(Padding.Left, style.paddingLeft)
-  if (style.paddingBottom) node.setPadding(Padding.Bottom, style.paddingBottom)
-  if (style.paddingTop) node.setPadding(Padding.Top, style.paddingTop)
-  if (style.marginRight) node.setMargin(Padding.Right, style.marginRight)
-  if (style.marginLeft) node.setMargin(Padding.Left, style.marginLeft)
-  if (style.marginBottom) node.setMargin(Padding.Bottom, style.marginBottom)
-  if (style.marginTop) node.setMargin(Padding.Top, style.marginTop)
+  if (style.paddingRight) node.setPadding(EDGES.EDGE_RIGHT, style.paddingRight)
+  if (style.paddingLeft) node.setPadding(EDGES.EDGE_LEFT, style.paddingLeft)
+  if (style.paddingBottom)
+    node.setPadding(EDGES.EDGE_BOTTOM, style.paddingBottom)
+  if (style.paddingTop) node.setPadding(EDGES.EDGE_TOP, style.paddingTop)
+  if (style.marginRight) node.setMargin(EDGES.EDGE_RIGHT, style.marginRight)
+  if (style.marginLeft) node.setMargin(EDGES.EDGE_LEFT, style.marginLeft)
+  if (style.marginBottom) node.setMargin(EDGES.EDGE_BOTTOM, style.marginBottom)
+  if (style.marginTop) node.setMargin(EDGES.EDGE_TOP, style.marginTop)
   if (style.height) node.setHeight(style.height)
   if (style.width) node.setWidth(style.width)
   return node
@@ -57,10 +57,10 @@ export const createNodeTree = (
 ): ViewElement => {
   const node = createNode(style)
   if (children.length > 0)
-    children.map(({ node: childNode }: Node, index: number) => {
+    children.map(({ node: childNode }: ViewElement, index: number) => {
       node.insertChild(childNode, index)
     })
-  return createYogaStyleObject(type, node, props, style, children)
+  return createViewElement(type, node, props, style, children)
 }
 
 export const initView = (
@@ -71,6 +71,6 @@ export const initView = (
   const { root } = scene
   root.h = WINDOW_HEIGHT
   root.w = WINDOW_WIDTH
-  views.node.calculateLayout(yoga.UNDEFINED, yoga.UNDEFINED, yoga.DIRECTION_LTR)
+  views.node.calculateLayout(0, 0, 1)
   return recursivelyRenderNodes(scene, root, views, previousViews)
 }
