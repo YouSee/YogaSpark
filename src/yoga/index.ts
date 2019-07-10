@@ -1,4 +1,4 @@
-import yoga, { Node, YogaNode } from 'yoga-layout'
+import Yoga, { Node, YogaNode } from 'yoga-layout'
 import { EDGES, Style } from './types'
 import { Props } from '../components'
 import { SparkObject, SparkScene, SparkObjectTypes } from '../spark/types'
@@ -24,8 +24,8 @@ export const createViewElement = (
   children: Array<ViewElement>,
 ): ViewElement => ({ type, node, props, style, children })
 
-export const createNode = (style: Style): YogaNode => {
-  const node: YogaNode = Node.create()
+export const createNode = (style: Style, yogaNode: any = Node): YogaNode => {
+  const node: YogaNode = yogaNode.create()
   if (style.display) node.setDisplay(style.display)
   if (style.overflow) node.setOverflow(style.overflow)
   if (style.alignItems) node.setAlignItems(style.alignItems)
