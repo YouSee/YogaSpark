@@ -1,12 +1,8 @@
 import yoga, { Node } from 'yoga-layout'
-import { Padding, Style } from './layout'
-import { Props } from './components'
-import {
-  recursivelyRenderNodes,
-  SparkObject,
-  SparkScene,
-  SparkObjectTypes,
-} from './spark'
+import { Padding, Style } from './types'
+import { Props } from '../components'
+import { SparkObject, SparkScene, SparkObjectTypes } from '../spark/types'
+import { recursivelyRenderNodes } from '../spark'
 
 export const WINDOW_WIDTH = 1280
 export const WINDOW_HEIGHT = 720

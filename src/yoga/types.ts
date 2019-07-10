@@ -3,18 +3,18 @@ import yoga from 'yoga-layout'
 
 export enum Display {
   Flex = yoga.DISPLAY_FLEX,
-  None = yoga.DISPLAY_NONE
+  None = yoga.DISPLAY_NONE,
 }
 
 export enum Position {
   Relative = yoga.POSITION_TYPE_RELATIVE,
-  Absolute = yoga.POSITION_TYPE_ABSOLUTE
+  Absolute = yoga.POSITION_TYPE_ABSOLUTE,
 }
 
 export enum Overflow {
   Visible = yoga.OVERFLOW_VISIBLE,
   Hidden = yoga.OVERFLOW_HIDDEN,
-  Scroll = yoga.OVERFLOW_SCROLL
+  Scroll = yoga.OVERFLOW_SCROLL,
 }
 
 export enum AlignItems {
@@ -52,28 +52,28 @@ export enum Padding {
   Right = yoga.EDGE_RIGHT,
   Left = yoga.EDGE_LEFT,
   Top = yoga.EDGE_TOP,
-  Bottom = yoga.EDGE_BOTTOM
+  Bottom = yoga.EDGE_BOTTOM,
 }
 
 export interface Style {
-  display?: Display,
-  position?: Position,
-  overflow?: Overflow,
-  alignItems?: AlignItems,
-  justifyContent?: JustifyContent,
-  flexDirection?: FlexDirection,
-  flexWrap?: FlexWrap,
-  flexGrow?: number,
-  flexShrink?: number,
-  flexBasis?: number | string,
-  paddingLeft?: number,
-  paddingRight?: number,
-  paddingTop?: number,
-  paddingBottom?: number,
-  marginLeft?: number,
-  marginRight?: number,
-  marginTop?: number,
-  marginBottom?: number,
-  width?: number | string,
-  height?: number,
+  display?: Display
+  position?: Position
+  overflow?: Overflow
+  alignItems?: AlignItems
+  justifyContent?: JustifyContent
+  flexDirection?: FlexDirection
+  flexWrap?: FlexWrap
+  flexGrow?: number
+  flexShrink?: number
+  flexBasis?: number | string
+  paddingLeft?: number
+  paddingRight?: number
+  paddingTop?: number
+  paddingBottom?: number
+  marginLeft?: number
+  marginRight?: number
+  marginTop?: number
+  marginBottom?: number
+  width?: number | string
+  height?: number
 }

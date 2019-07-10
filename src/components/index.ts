@@ -1,6 +1,6 @@
-import { Style } from './layout'
-import { createNodeTree, ViewElement } from './yoga'
-import { SparkObjectTypes } from './spark'
+import { Style } from '../yoga/types'
+import { createNodeTree, ViewElement } from '../yoga'
+import { SparkObjectTypes } from '../spark/types'
 
 export interface Props {
   url?: string

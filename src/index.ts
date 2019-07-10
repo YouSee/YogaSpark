@@ -5,9 +5,9 @@ import {
   FlexDirection,
   FlexWrap,
   Style,
-} from './layout'
+} from './yoga/types'
 import { initView, WINDOW_WIDTH, WINDOW_HEIGHT, ViewElement } from './yoga'
-import { SparkScene, SparkSceneEvents } from './spark'
+import { SparkScene, SparkSceneEvents } from './spark/types'
 import { scene as createScene, view, image, text } from './components'
 
 px.import('px:scene.1.js').then(function ready(scene: SparkScene) {
