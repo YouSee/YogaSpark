@@ -130,4 +130,5 @@ export interface Style {
   marginBottom?: number
   width?: number | string
   height?: number
+  top?: number
 }

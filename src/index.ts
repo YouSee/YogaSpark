@@ -25,6 +25,7 @@ px.import('px:scene.1.js').then(function ready(scene: SparkScene) {
   }
 
   let previousViews: ViewElement
+  let top = 0
   setInterval(() => {
     previousViews = initView(
       createScene(
@@ -34,6 +35,7 @@ px.import('px:scene.1.js').then(function ready(scene: SparkScene) {
           flexWrap: FLEX_WRAP.WRAP_WRAP,
           width: WINDOW_WIDTH,
           height: WINDOW_HEIGHT,
+          top,
         },
         viewChildren.map(() =>
           image(
@@ -51,7 +53,7 @@ px.import('px:scene.1.js').then(function ready(scene: SparkScene) {
                   justifyContent: JUSTIFY_CONTENT.JUSTIFY_CENTER,
                   alignItems: ALIGN.ALIGN_CENTER,
                 },
-                [text({ text: 'nej' }, {}, [])],
+                top !== -210 ? [text({ text: 'hej' }, {}, [])] : [],
               ),
             ],
           ),
@@ -60,6 +62,7 @@ px.import('px:scene.1.js').then(function ready(scene: SparkScene) {
       previousViews,
       scene,
     )
+    top = top - 210
   }, 5000)
 
   scene.on(SparkSceneEvents.OnClose, e => {

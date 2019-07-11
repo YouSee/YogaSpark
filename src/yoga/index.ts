@@ -7,12 +7,21 @@ import { recursivelyRenderNodes } from '../spark'
 export const WINDOW_WIDTH = 1280
 export const WINDOW_HEIGHT = 720
 
+export interface NodeLayout {
+  left: number
+  right: number
+  top: number
+  bottom: number
+  width: number
+  height: number
+}
 export interface ViewElement {
   type: SparkObjectTypes
   node: YogaNode
   props: Props
   style: Style
   element?: SparkObject
+  nodeLayout?: NodeLayout
   children: Array<ViewElement>
 }
 
@@ -28,6 +37,7 @@ export const createNode = (style: Style, yogaNode: any = Node): YogaNode => {
   const node: YogaNode = yogaNode.create()
   if (style.display) node.setDisplay(style.display)
   if (style.overflow) node.setOverflow(style.overflow)
+  if (style.top) node.setPosition(EDGES.EDGE_TOP, style.top)
   if (style.alignItems) node.setAlignItems(style.alignItems)
   if (style.justifyContent) node.setJustifyContent(style.justifyContent)
   if (style.flexDirection) node.setFlexDirection(style.flexDirection)
