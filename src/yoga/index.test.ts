@@ -1,6 +1,8 @@
-import { Node } from 'yoga-layout'
-import { createViewElement, createNode, ViewElement } from '.'
+import { Node, YogaNode } from 'yoga-layout'
+import { createViewElement, createNode, createNodeTree, ViewElement } from '.'
 import { SparkObjectTypes } from '../spark/types'
+import { Style } from './types'
+import { Props } from '../components'
 
 test('Should return ViewElement object', () => {
   const viewElement: ViewElement = createViewElement(
@@ -61,3 +63,41 @@ test.each([
     expect(mockNodeInstance[func]).toHaveBeenCalledWith(...expectedParameters)
   },
 )
+
+test('Should create node tree and add children to node and return view element', () => {
+  const createChild = (width: number): ViewElement => {
+    const node: YogaNode = Node.create()
+    node.setWidth(width)
+    return createViewElement(
+      SparkObjectTypes.Rect,
+      node,
+      { url: 'hey' },
+      { height: 10, width: 10 },
+      [],
+    )
+  }
+
+  const props: Props = { text: 'hey' }
+  const style: Style = { width: 666 }
+  const chilren: Array<ViewElement> = [createChild(1), createChild(2)]
+
+  const tree: ViewElement = createNodeTree(
+    SparkObjectTypes.Rect,
+    props,
+    style,
+    chilren,
+  )
+
+  // yoga tree
+  expect(tree.node.getChildCount()).toBe(2)
+  expect(tree.node.getChild(0).getWidth().value).toBe(1)
+  expect(tree.node.getChild(1).getWidth().value).toBe(2)
+  expect(tree.node.getWidth().value).toBe(666)
+
+  // view element
+  expect(tree.type).toBe(SparkObjectTypes.Rect)
+  expect(tree.props).toEqual(props)
+  expect(tree.style).toEqual(style)
+  expect(tree.children).toEqual(chilren)
+  expect(tree.element).toBeUndefined()
+})

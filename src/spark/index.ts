@@ -76,7 +76,7 @@ export const recursivelyRenderNodes = (
   }
   return {
     ...newParent,
-    children: Array.from(Array(getChildrenMaxLength(newNode, oldNode))).map(
+    children: [...Array(getChildrenMaxLength(newNode, oldNode))].map(
       (_: any, idx: number) =>
         recursivelyRenderNodes(
           scene,
