@@ -5,6 +5,7 @@ import {
   translateYogaToSparkLayoutKeys,
   recursivelyRenderNodes,
 } from '.'
+import { Props } from '../components'
 import { SparkObjectTypes, SparkScene, SparkObject } from './types'
 import { getObject, getScene } from './index.mock'
 import { ViewElement } from '../yoga'
@@ -123,6 +124,34 @@ test('should update element if there is an old node and new node has new style',
   expect(mockScene.create).toHaveBeenCalledTimes(1)
   expect(renderedViewElement.element).toBeDefined()
   expect(renderedViewElement.element.animateTo).toHaveBeenCalledTimes(1)
+})
+
+test('should update element if there is an old node and new node has new props', () => {
+  const viewElementWithNoChildren: ViewElement = getViewElement([])
+  viewElementWithNoChildren.props = { text: 'nope' }
+  viewElementWithNoChildren.node.setHeight(10)
+  viewElementWithNoChildren.node.setWidth(10)
+  viewElementWithNoChildren.node.calculateLayout(0, 0, 1)
+
+  const mockScene: SparkScene = getScene()
+  const mockObject: SparkObject = getObject()
+  const renderedViewElement: ViewElement = recursivelyRenderNodes(
+    mockScene,
+    mockObject,
+    viewElementWithNoChildren,
+  )
+
+  viewElementWithNoChildren.props = { text: 'hej' }
+  const updatedViewElement: ViewElement = recursivelyRenderNodes(
+    mockScene,
+    mockObject,
+    viewElementWithNoChildren,
+    renderedViewElement,
+  )
+  expect(mockScene.create).toHaveBeenCalledTimes(1)
+  expect(renderedViewElement.element).toBeDefined()
+  expect(renderedViewElement.element.animateTo).toHaveBeenCalledTimes(0)
+  expect(updatedViewElement.props).toEqual({ text: 'hej' })
 })
 
 test('should delete element if there is no new node', () => {

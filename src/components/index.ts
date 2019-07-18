@@ -6,6 +6,7 @@ export interface Props {
   url?: string
   text?: string
   fillColor?: string
+  [key: string]: any
 }
 
 export const scene = (
