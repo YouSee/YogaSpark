@@ -17,6 +17,7 @@ const getViewElement = (children: Array<ViewElement>): ViewElement => ({
   style: {},
   children,
 })
+
 test('Should get the length of the longest array', () => {
   const viewElementWithOneChild: ViewElement = getViewElement(
     Array.from(Array(1), getViewElement),
@@ -198,4 +199,23 @@ test('should delete element and create a new one if new element has different ty
   expect(renderedViewElement.element.remove).toHaveBeenCalledTimes(1)
   expect(renderedViewElement.element.removeAll).toHaveBeenCalledTimes(1)
   expect(reRenderedViewElement.type).toBe(SparkObjectTypes.Text)
+})
+
+test('should create element and all children', () => {
+  const viewElementWithChildren: ViewElement = getViewElement(
+    Array.from(Array(2), () => getViewElement([])),
+  )
+
+  const mockScene: SparkScene = getScene()
+  const mockObject: SparkObject = getObject()
+
+  const renderedViewElement: ViewElement = recursivelyRenderNodes(
+    mockScene,
+    mockObject,
+    viewElementWithChildren,
+  )
+
+  expect(mockScene.create).toHaveBeenCalledTimes(3)
+  expect(renderedViewElement.element).toBeDefined()
+  expect(renderedViewElement.children.length).toBe(2)
 })
