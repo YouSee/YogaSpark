@@ -175,3 +175,27 @@ test('should delete element if there is no new node', () => {
   expect(renderedViewElement.element.remove).toHaveBeenCalledTimes(1)
   expect(renderedViewElement.element.removeAll).toHaveBeenCalledTimes(1)
 })
+
+test('should delete element and create a new one if new element has different type', () => {
+  const viewElementWithNoChildren: ViewElement = getViewElement([])
+  const mockScene: SparkScene = getScene()
+  const mockObject: SparkObject = getObject()
+  const renderedViewElement: ViewElement = recursivelyRenderNodes(
+    mockScene,
+    mockObject,
+    viewElementWithNoChildren,
+  )
+
+  viewElementWithNoChildren.type = SparkObjectTypes.Text
+  const reRenderedViewElement = recursivelyRenderNodes(
+    mockScene,
+    mockObject,
+    viewElementWithNoChildren,
+    renderedViewElement,
+  )
+  expect(mockScene.create).toHaveBeenCalledTimes(2)
+  expect(renderedViewElement.element).toBeDefined()
+  expect(renderedViewElement.element.remove).toHaveBeenCalledTimes(1)
+  expect(renderedViewElement.element.removeAll).toHaveBeenCalledTimes(1)
+  expect(reRenderedViewElement.type).toBe(SparkObjectTypes.Text)
+})

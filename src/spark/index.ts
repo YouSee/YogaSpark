@@ -100,7 +100,14 @@ export const recursivelyRenderNodes = (
   oldNode?: ViewElement,
 ): ViewElement => {
   let newParent: ViewElement
+  // in case of first render
   if (!oldNode) newParent = createElement(scene, parent, newNode)
+  // when we have a new and old node, but new nodes type is different
+  if (oldNode && newNode && oldNode.type !== newNode.type) {
+    destroyElement(oldNode)
+    newParent = createElement(scene, parent, newNode)
+  }
+  // when we have a new and old node and we wanna update style or props
   if (oldNode && newNode) {
     newParent = updateElement(
       {
@@ -110,6 +117,7 @@ export const recursivelyRenderNodes = (
       oldNode,
     )
   }
+  // when we don't have an new node so we want to delete the old node
   if (oldNode && oldNode.element && !newNode) {
     destroyElement(oldNode)
     return null
