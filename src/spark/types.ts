@@ -155,7 +155,7 @@ export interface SparkObject extends SparkObjectProperties {
   stretchY?: SparkStretch
   ready?: Promise<SparkObject>
   // text
-  text: string
+  text?: string
   // for dynamicly uploading props...
   [key: string]: any
 }
