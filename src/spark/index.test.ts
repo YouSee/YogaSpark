@@ -5,12 +5,11 @@ import {
   translateYogaToSparkLayoutKeys,
   recursivelyRenderNodes,
 } from '.'
-import { Props } from '../components'
 import { SparkObjectTypes, SparkScene, SparkObject } from './types'
 import { getObject, getScene } from './index.mock'
-import { ViewElement } from '../yoga'
+import { ViewElement } from '../yoga/types'
 
-const getViewElement = (children: Array<ViewElement>): ViewElement => ({
+const getViewElement = (children: ViewElement[]): ViewElement => ({
   type: SparkObjectTypes.Rect,
   node: Node.create(),
   props: {},

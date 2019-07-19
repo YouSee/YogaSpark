@@ -1,36 +1,18 @@
-import Yoga, { Node, YogaNode } from 'yoga-layout'
-import { EDGES, Style } from './types'
-import { Props } from '../components'
-import { SparkObject, SparkScene, SparkObjectTypes } from '../spark/types'
+import { Node, YogaNode } from 'yoga-layout'
+import { EDGES, Style, ViewElement } from './types'
+import { Props } from '../components/types'
+import { SparkScene, SparkObjectTypes } from '../spark/types'
 import { recursivelyRenderNodes } from '../spark'
 
 export const WINDOW_WIDTH = 1280
 export const WINDOW_HEIGHT = 720
-
-export interface NodeLayout {
-  left: number
-  right: number
-  top: number
-  bottom: number
-  width: number
-  height: number
-}
-export interface ViewElement {
-  type: SparkObjectTypes
-  node: YogaNode
-  props: Props
-  style: Style
-  element?: SparkObject
-  nodeLayout?: NodeLayout
-  children: Array<ViewElement>
-}
 
 export const createViewElement = (
   type: SparkObjectTypes,
   node: YogaNode,
   props: Props,
   style: Style,
-  children: Array<ViewElement>,
+  children: ViewElement[],
 ): ViewElement => ({ type, node, props, style, children })
 
 export const createNode = (style: Style, yogaNode: any = Node): YogaNode => {
@@ -63,12 +45,12 @@ export const createNodeTree = (
   type: SparkObjectTypes,
   props: Props,
   style: Style,
-  children: Array<ViewElement>,
+  children: ViewElement[],
 ): ViewElement => {
   const node = createNode(style)
   if (children.length > 0)
     children.map(({ node: childNode }: ViewElement, index: number) => {
-      node.insertChild(childNode, index)
+      return node.insertChild(childNode, index)
     })
   return createViewElement(type, node, props, style, children)
 }

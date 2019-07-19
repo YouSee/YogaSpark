@@ -109,7 +109,7 @@ export interface SparkObjectProperties {
   draw?: boolean
   focus?: boolean
   numChildren?: number
-  children?: Array<SparkObject>
+  children?: SparkObject[]
   // image
   stretchX?: SparkStretch
   stretchY?: SparkStretch

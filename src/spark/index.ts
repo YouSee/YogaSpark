@@ -1,7 +1,6 @@
 import { SparkScene, SparkObject, SparkStretch, SparkTween } from './types'
-import { Props } from '../components'
-import { ViewElement, NodeLayout } from '../yoga'
-import { Style } from '../yoga/types'
+import { Props } from '../components/types'
+import { ViewElement, Style } from '../yoga/types'
 
 export const getChildrenMaxLength = (
   newNode?: ViewElement,
@@ -47,11 +46,11 @@ export const createElement = (
   parent: SparkObject,
   nodeObject: ViewElement,
 ): ViewElement => {
-  let { type, props, node, element } = nodeObject
+  const { type, props, node } = nodeObject
 
   const nodeLayout = node.getComputedLayout()
 
-  element = scene.create({
+  const element = scene.create({
     t: type,
     ...props,
     parent,
@@ -64,7 +63,7 @@ export const createElement = (
 }
 
 export const updateElement = (newNode: ViewElement, oldNode: ViewElement) => {
-  let { node, element } = newNode
+  const { node, element } = newNode
 
   const newNodeLayout = node.getComputedLayout()
 
@@ -79,16 +78,18 @@ export const updateElement = (newNode: ViewElement, oldNode: ViewElement) => {
     )
   }
 
-  const propsDiffKeys: Array<string> = Object.keys(propsDiff)
+  const propsDiffKeys: string[] = Object.keys(propsDiff)
   if (propsDiffKeys.length > 0) {
-    propsDiffKeys.forEach(key => (element[key] = propsDiff[key]))
+    propsDiffKeys.forEach(key => {
+      element[key] = propsDiff[key]
+    })
   }
 
   return { ...newNode, nodeLayout: newNodeLayout }
 }
 
 export const destroyElement = (nodeObject: ViewElement) => {
-  let { element } = nodeObject
+  const { element } = nodeObject
   element.removeAll()
   element.remove()
 }

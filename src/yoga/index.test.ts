@@ -1,8 +1,8 @@
 import { Node, YogaNode } from 'yoga-layout'
-import { createViewElement, createNode, createNodeTree, ViewElement } from '.'
+import { createViewElement, createNode, createNodeTree } from '.'
 import { SparkObjectTypes } from '../spark/types'
-import { Style } from './types'
-import { Props } from '../components'
+import { Style, ViewElement } from './types'
+import { Props } from '../components/types'
 
 test('Should return ViewElement object', () => {
   const viewElement: ViewElement = createViewElement(
@@ -79,7 +79,7 @@ test('Should create node tree and add children to node and return view element',
 
   const props: Props = { text: 'hey' }
   const style: Style = { width: 666 }
-  const chilren: Array<ViewElement> = [createChild(1), createChild(2)]
+  const chilren: ViewElement[] = [createChild(1), createChild(2)]
 
   const tree: ViewElement = createNodeTree(
     SparkObjectTypes.Rect,

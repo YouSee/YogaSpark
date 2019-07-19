@@ -14,7 +14,7 @@ import {
   render,
 } from './render'
 
-const viewChildren: Array<null> = [...Array(100 * 2)]
+const viewChildren: null[] = [...Array(100 * 2)]
 const childStyle: Style = {
   flexGrow: 1,
   height: 200,
