@@ -14,8 +14,6 @@ export * from './yoga/types'
 let sparkScene: SparkScene
 let previousViews: ViewElement
 
-// export const makeScene = (scene: SparkScene): (() => SparkScene) => () => scene
-
 export const render = (views: ViewElement) => {
   // first render
   if (!sparkScene) {
