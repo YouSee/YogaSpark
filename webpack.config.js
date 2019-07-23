@@ -1,33 +1,34 @@
-const WebpackPluginSpark = require('webpack-plugin-spark');
-const path = require('path');
+const WebpackPluginSpark = require('webpack-plugin-spark')
+const path = require('path')
+require('babel-polyfill')
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: ['babel-polyfill', './src/index.ts'],
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
       },
       {
         test: /\.js$/,
         use: ['source-map-loader'],
-        enforce: 'pre'
-      }
-    ]
+        enforce: 'pre',
+      },
+    ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: ['.tsx', '.ts', '.js'],
   },
   plugins: [
     new WebpackPluginSpark({
       progress: true,
       liveReload: true,
-      static: path.join(__dirname, './dist')
-    })
+      static: path.join(__dirname, './dist'),
+    }),
   ],
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
-  }
-};
+    path: path.resolve(__dirname, 'dist'),
+  },
+}

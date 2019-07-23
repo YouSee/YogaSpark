@@ -14,13 +14,11 @@ export * from './yoga/types'
 let sparkScene: SparkScene
 let previousViews: ViewElement
 
-export const render = (views: ViewElement) => {
+export const render = async (views: ViewElement) => {
   // first render
   if (!sparkScene) {
-    px.import('px:scene.1.js').then((scene: SparkScene) => {
-      sparkScene = scene
-      previousViews = initView(views, previousViews, sparkScene)
-    })
+    sparkScene = await px.import('px:scene.1.js')
+    previousViews = initView(views, previousViews, sparkScene)
   } else {
     previousViews = initView(views, previousViews, sparkScene)
   }

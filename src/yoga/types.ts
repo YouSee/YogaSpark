@@ -132,7 +132,7 @@ export interface Style {
   marginTop?: number
   marginBottom?: number
   width?: number | string
-  height?: number
+  height?: number | string
   top?: number
 }
 export interface NodeLayout {
