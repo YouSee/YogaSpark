@@ -1,6 +1,9 @@
 export interface Props {
   url?: string
   text?: string
-  fillColor?: string
-  [key: string]: string
+  fillColor?: string | number
+  clip?: boolean
+  mask?: boolean
+  draw?: boolean
+  [key: string]: string | boolean | number
 }

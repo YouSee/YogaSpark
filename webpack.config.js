@@ -3,7 +3,7 @@ const path = require('path')
 require('babel-polyfill')
 
 module.exports = {
-  entry: ['babel-polyfill', './src/index.ts'],
+  entry: ['babel-polyfill', './examples/asset-grid/index.ts'],
   module: {
     rules: [
       {

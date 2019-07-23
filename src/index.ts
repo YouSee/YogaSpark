@@ -1,74 +1,25 @@
-import {
-  scene,
-  view,
-  image,
-  DISPLAY,
-  POSITION,
-  FLEX_DIRECTION,
-  FLEX_WRAP,
-  WINDOW_HEIGHT,
-  WINDOW_WIDTH,
-  Style,
-  render,
-} from './render'
+import { initView } from './yoga'
+import { ViewElement } from './yoga/types'
+import { SparkScene } from './spark/types'
 
-const viewChildren: null[] = [...Array(100 * 2)]
-const childStyle: Style = {
-  flexGrow: 1,
-  height: 200,
-  marginRight: 5,
-  marginLeft: 5,
-  marginTop: 5,
-  marginBottom: 5,
-  flexBasis: '20%',
+declare let px: {
+  import: (file: string) => Promise<SparkScene>
 }
 
-const imageStyle: Style = {
-  position: POSITION.POSITION_TYPE_ABSOLUTE,
-  height: '100%',
-  width: '100%',
+export * from './components'
+export * from './spark/types'
+export * from './yoga'
+export * from './yoga/types'
+
+let sparkScene: SparkScene
+let previousViews: ViewElement
+
+export const render = async (views: ViewElement) => {
+  // first render
+  if (!sparkScene) {
+    sparkScene = await px.import('px:scene.1.js')
+    previousViews = initView(views, previousViews, sparkScene)
+  } else {
+    previousViews = initView(views, previousViews, sparkScene)
+  }
 }
-
-const grid = (top: number, isOdd: boolean) =>
-  scene(
-    {
-      display: DISPLAY.DISPLAY_FLEX,
-      flexDirection: FLEX_DIRECTION.FLEX_DIRECTION_ROW,
-      flexWrap: FLEX_WRAP.WRAP_WRAP,
-      width: WINDOW_WIDTH,
-      height: WINDOW_HEIGHT,
-      top,
-    },
-    viewChildren.map(() =>
-      view({ fillColor: 0x00000000 }, childStyle, [
-        image(
-          {
-            clip: true,
-            mask: true,
-            draw: true,
-            url: 'http://localhost:8080/response.svg',
-          },
-          imageStyle,
-          [],
-        ),
-
-        image(
-          {
-            url:
-              'https://scaled.yousee.tv/web?url=https%3A%2F%2Fimages.yousee.tv%2Fpics%2F179583726%2F1920x1080.jpg&width=1280&height=720',
-          },
-          imageStyle,
-          [],
-        ),
-      ]),
-    ),
-  )
-
-let newTop = 0
-let isOdd = true
-setInterval(() => {
-  render(grid(newTop, isOdd))
-  newTop -= 210
-  if (isOdd) isOdd = false
-  else isOdd = true
-}, 2000)
