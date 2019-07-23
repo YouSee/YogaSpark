@@ -2,10 +2,8 @@ import {
   scene,
   view,
   image,
-  text,
-  JUSTIFY_CONTENT,
-  ALIGN,
   DISPLAY,
+  POSITION,
   FLEX_DIRECTION,
   FLEX_WRAP,
   WINDOW_HEIGHT,
@@ -23,8 +21,12 @@ const childStyle: Style = {
   marginTop: 5,
   marginBottom: 5,
   flexBasis: '20%',
-  justifyContent: JUSTIFY_CONTENT.JUSTIFY_CENTER,
-  alignItems: ALIGN.ALIGN_CENTER,
+}
+
+const imageStyle: Style = {
+  position: POSITION.POSITION_TYPE_ABSOLUTE,
+  height: '100%',
+  width: '100%',
 }
 
 const grid = (top: number, isOdd: boolean) =>
@@ -38,25 +40,27 @@ const grid = (top: number, isOdd: boolean) =>
       top,
     },
     viewChildren.map(() =>
-      image(
-        {
-          url:
-            'https://scaled.yousee.tv/web?url=https%3A%2F%2Fimages.yousee.tv%2Fpics%2F179583726%2F1920x1080.jpg&width=1280&height=720',
-        },
-        childStyle,
-        [
-          view(
-            { fillColor: isOdd ? 'Red' : 'Green' },
-            {
-              ...(isOdd ? { height: 100 } : { height: 150 }),
-              width: 100,
-              justifyContent: JUSTIFY_CONTENT.JUSTIFY_CENTER,
-              alignItems: ALIGN.ALIGN_CENTER,
-            },
-            top !== -210 ? [text({ text: isOdd ? 'hej' : 'nej' }, {}, [])] : [],
-          ),
-        ],
-      ),
+      view({ fillColor: 0x00000000 }, childStyle, [
+        image(
+          {
+            clip: true,
+            mask: true,
+            draw: true,
+            url: 'http://localhost:8080/response.svg',
+          },
+          imageStyle,
+          [],
+        ),
+
+        image(
+          {
+            url:
+              'https://scaled.yousee.tv/web?url=https%3A%2F%2Fimages.yousee.tv%2Fpics%2F179583726%2F1920x1080.jpg&width=1280&height=720',
+          },
+          imageStyle,
+          [],
+        ),
+      ]),
     ),
   )
 

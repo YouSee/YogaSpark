@@ -134,6 +134,9 @@ export interface Style {
   width?: number | string
   height?: number | string
   top?: number
+  bottom?: number
+  left?: number
+  right?: number
 }
 export interface NodeLayout {
   left: number
