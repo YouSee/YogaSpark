@@ -6,12 +6,13 @@ import {
   WINDOW_HEIGHT,
   WINDOW_WIDTH,
   render,
+  ViewElement,
 } from '../../src'
 import { roundedImage } from './components/roundedImage'
 
-const viewChildren: null[] = [...Array(100 * 2)]
+const viewChildren: null[] = [...Array(10 * 4)]
 
-const grid = (top: number, isOdd: boolean) =>
+const view = ({ top }): ViewElement =>
   scene(
     {
       display: DISPLAY.DISPLAY_FLEX,
@@ -29,10 +30,7 @@ const grid = (top: number, isOdd: boolean) =>
   )
 
 let newTop = 0
-let isOdd = true
 setInterval(() => {
-  render(grid(newTop, isOdd))
+  render(view, { top: newTop })
   newTop -= 210
-  if (isOdd) isOdd = false
-  else isOdd = true
 }, 2000)

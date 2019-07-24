@@ -33,17 +33,20 @@ const getSelectableElements = (tree: ViewElement): any[] => {
  * or for each selectable element we could add a function to update the ViewElement
  * has to be re-render of whole view model because if we should hide stuff when element get's selected
  */
-export const render = async (views: ViewElement): Promise<void> => {
+export const render = async (
+  view: (store: object) => ViewElement,
+  store: object,
+): Promise<void> => {
   // first render
   if (!sparkScene) {
     sparkScene = await px.import('px:scene.1.js')
-    previousViews = initView(views, previousViews, sparkScene)
+    previousViews = initView(view(store), previousViews, sparkScene)
     getSelectableElements(previousViews)
     console.log(iterations)
     sparkScene.root.focus = true
     sparkScene.root.on(SparkEvents.OnKeyDown, e => console.log('here', e))
   } else {
     sparkScene.root.focus = true
-    previousViews = initView(views, previousViews, sparkScene)
+    previousViews = initView(view(store), previousViews, sparkScene)
   }
 }
