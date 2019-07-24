@@ -4,7 +4,7 @@ import { SparkObjectTypes } from '../spark/types'
 import { Props } from './types'
 
 export const scene = (style: Style, children: ViewElement[]): ViewElement =>
-  createNodeTree(SparkObjectTypes.Scene, {}, style, children)
+  createNodeTree(SparkObjectTypes.Scene, { mask: true }, style, children)
 
 export const view = (
   props: Props,

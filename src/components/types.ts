@@ -5,5 +5,7 @@ export interface Props {
   clip?: boolean
   mask?: boolean
   draw?: boolean
+  selectable?: boolean
+  active?: boolean
   [key: string]: string | boolean | number
 }
