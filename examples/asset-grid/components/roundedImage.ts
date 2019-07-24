@@ -17,7 +17,7 @@ const imageStyle: Style = {
 }
 
 export const roundedImage = (url: string): ViewElement =>
-  view({ focus: true, fillColor: 0x00000000, interactive: true }, childStyle, [
+  view({ fillColor: 0x00000000, selectable: true, active: true }, childStyle, [
     image(
       {
         clip: true,
