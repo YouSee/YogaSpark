@@ -7,5 +7,6 @@ export interface Props {
   draw?: boolean
   selectable?: boolean
   active?: boolean
+  key?: string
   [key: string]: string | boolean | number
 }

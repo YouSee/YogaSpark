@@ -12,7 +12,7 @@ import { roundedImage } from './components/roundedImage'
 
 const viewChildren: null[] = [...Array(10 * 4)]
 
-const view = ({ top }): ViewElement =>
+const view = ({ top }, activeElementKey: string): ViewElement =>
   scene(
     {
       display: DISPLAY.DISPLAY_FLEX,
@@ -22,15 +22,21 @@ const view = ({ top }): ViewElement =>
       height: WINDOW_HEIGHT,
       top,
     },
-    viewChildren.map(() =>
+    viewChildren.map((_, index) =>
       roundedImage(
         'https://scaled.yousee.tv/web?url=https%3A%2F%2Fimages.yousee.tv%2Fpics%2F179583726%2F1920x1080.jpg&width=1280&height=720',
+        index,
+        activeElementKey,
       ),
     ),
   )
 
 let newTop = 0
+render(view, { top: newTop })
+/*
+newTop -= 210
 setInterval(() => {
   render(view, { top: newTop })
   newTop -= 210
 }, 2000)
+*/
