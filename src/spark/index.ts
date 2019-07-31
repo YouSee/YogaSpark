@@ -1,6 +1,6 @@
 import { SparkScene, SparkObject, SparkStretch, SparkTween } from './types'
 import { Props } from '../components/types'
-import { ViewElement, Style } from '../yoga/types'
+import { ViewElement, Style, NodeLayout } from '../yoga/types'
 
 export const getChildrenMaxLength = (
   newNode?: ViewElement,
@@ -48,7 +48,7 @@ export const createElement = (
 ): ViewElement => {
   const { type, props, node } = nodeObject
 
-  const nodeLayout = node.getComputedLayout()
+  const nodeLayout: NodeLayout = node.getComputedLayout()
 
   const element = scene.create({
     t: type,
@@ -59,13 +59,15 @@ export const createElement = (
     stretchY: SparkStretch.STRETCH,
   })
 
+  if (props.onRef) props.onRef(nodeLayout)
+
   return { ...nodeObject, nodeLayout, element }
 }
 
 export const updateElement = (newNode: ViewElement, oldNode: ViewElement) => {
   const { node, element } = newNode
 
-  const newNodeLayout = node.getComputedLayout()
+  const newNodeLayout: NodeLayout = node.getComputedLayout()
 
   const styleDiff: Style = getObjectDiff(newNodeLayout, oldNode.nodeLayout)
   const propsDiff: Props = getObjectDiff(newNode.props, oldNode.props)
@@ -85,6 +87,8 @@ export const updateElement = (newNode: ViewElement, oldNode: ViewElement) => {
       element[key] = propsDiff[key]
     })
   }
+
+  if (newNode.props.onRef) newNode.props.onRef(newNodeLayout)
 
   return { ...newNode, nodeLayout: newNodeLayout }
 }

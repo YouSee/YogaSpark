@@ -1,4 +1,11 @@
-import { view, image, ViewElement, POSITION, Style } from '../../../src'
+import {
+  view,
+  image,
+  container,
+  ViewElement,
+  POSITION,
+  Style,
+} from '../../../src'
 
 const childStyle = (isActive: boolean): Style => ({
   flexGrow: 1,
@@ -22,33 +29,38 @@ export const roundedImage = (
   activeElementKey: string,
 ): ViewElement => {
   const key = `roundedImage/${index}`
-  const isActive = key === activeElementKey
-  return view(
-    {
-      fillColor: 0x00000000,
-      selectable: true,
-      key,
-    },
-    childStyle(isActive),
-    [
-      image(
-        {
-          clip: true,
-          mask: true,
-          draw: true,
-          url: 'http://localhost:8080/rrect.svg',
+  return container(key, (getState, setState) => {
+    const isActive = key === activeElementKey
+    return view(
+      {
+        fillColor: 0x00000000,
+        selectable: true,
+        key,
+        onRef: nodeLayout => {
+          setState(nodeLayout)
         },
-        imageStyle,
-        [],
-      ),
-      image(
-        {
-          ...(isActive ? { a: 0.5 } : { a: 1 }),
-          url,
-        },
-        imageStyle,
-        [],
-      ),
-    ],
-  )
+      },
+      childStyle(isActive),
+      [
+        image(
+          {
+            clip: true,
+            mask: true,
+            draw: true,
+            url: 'http://localhost:8080/rrect.svg',
+          },
+          imageStyle,
+          [],
+        ),
+        image(
+          {
+            ...(isActive ? { a: 0.5 } : { a: 1 }),
+            url,
+          },
+          imageStyle,
+          [],
+        ),
+      ],
+    )
+  })
 }
