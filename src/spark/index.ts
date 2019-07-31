@@ -71,6 +71,7 @@ export const updateElement = (newNode: ViewElement, oldNode: ViewElement) => {
   const propsDiff: Props = getObjectDiff(newNode.props, oldNode.props)
 
   if (Object.keys(styleDiff).length > 0) {
+    // TODO should be dynamic
     element.animateTo(
       { ...translateYogaToSparkLayoutKeys(styleDiff) },
       1,

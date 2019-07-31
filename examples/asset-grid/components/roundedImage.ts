@@ -1,14 +1,14 @@
 import { view, image, ViewElement, POSITION, Style } from '../../../src'
 
-const childStyle: Style = {
+const childStyle = (isActive: boolean): Style => ({
   flexGrow: 1,
   height: 200,
-  marginRight: 5,
-  marginLeft: 5,
-  marginTop: 5,
+  ...(isActive
+    ? { marginRight: 5, marginLeft: 5, marginTop: 2 }
+    : { marginRight: 5, marginLeft: 5, marginTop: 5 }),
   marginBottom: 5,
   flexBasis: '20%',
-}
+})
 
 const imageStyle: Style = {
   position: POSITION.POSITION_TYPE_ABSOLUTE,
@@ -29,7 +29,7 @@ export const roundedImage = (
       selectable: true,
       key,
     },
-    childStyle,
+    childStyle(isActive),
     [
       image(
         {

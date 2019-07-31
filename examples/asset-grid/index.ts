@@ -7,6 +7,7 @@ import {
   WINDOW_WIDTH,
   render,
   ViewElement,
+  JUSTIFY_CONTENT,
 } from '../../src'
 import { roundedImage } from './components/roundedImage'
 
@@ -18,6 +19,7 @@ const view = ({ top }, activeElementKey: string): ViewElement =>
       display: DISPLAY.DISPLAY_FLEX,
       flexDirection: FLEX_DIRECTION.FLEX_DIRECTION_ROW,
       flexWrap: FLEX_WRAP.WRAP_WRAP,
+      justifyContent: JUSTIFY_CONTENT.JUSTIFY_FLEX_START,
       width: WINDOW_WIDTH,
       height: WINDOW_HEIGHT,
       top,
@@ -33,10 +35,3 @@ const view = ({ top }, activeElementKey: string): ViewElement =>
 
 let newTop = 0
 render(view, { top: newTop })
-/*
-newTop -= 210
-setInterval(() => {
-  render(view, { top: newTop })
-  newTop -= 210
-}, 2000)
-*/
