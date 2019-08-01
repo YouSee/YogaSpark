@@ -47,7 +47,7 @@ export const roundedImage = (
             clip: true,
             mask: true,
             draw: true,
-            url: 'http://localhost:8080/rrect.svg',
+            url: `${px.getPackageBaseFilePath()}/rrect.svg`,
           },
           imageStyle,
           [],
