@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "webpack --watch --mode=production --config webpack.config.js",
+    "start:example": "webpack --watch --mode=production --config webpack.config.dev.js",
     "test": "jest --coverage",
     "eslint-check": "eslint --fix --ext .ts ./src/**"
   },

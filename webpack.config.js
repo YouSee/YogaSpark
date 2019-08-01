@@ -1,10 +1,9 @@
 const WebpackPluginSpark = require('webpack-plugin-spark')
 const CopyPlugin = require('copy-webpack-plugin')
 const path = require('path')
-require('babel-polyfill')
 
 module.exports = {
-  entry: ['babel-polyfill', './examples/asset-grid/index.ts'],
+  entry: ['babel-polyfill', './src/index.ts'],
   module: {
     rules: [
       {
