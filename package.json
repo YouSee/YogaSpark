@@ -1,14 +1,19 @@
 {
   "name": "yoga-spark",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "",
   "main": "dist/bundle.js",
   "scripts": {
     "start": "webpack --watch --mode=production --config webpack.config.js",
     "start:example": "webpack --watch --mode=production --config webpack.config.dev.js",
+    "build": "webpack --mode=production --config webpack.config.js",
     "test": "jest --coverage",
-    "eslint-check": "eslint --fix --ext .ts ./src/**"
+    "eslint-check": "eslint --fix --ext .ts ./src/**",
+    "prepare": "npm run build"
   },
+  "files": [
+    "dist"
+  ],
   "author": "YouSee",
   "license": "MIT",
   "devDependencies": {
