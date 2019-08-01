@@ -62,6 +62,6 @@ workflows:
             - test
           filters:
             branches:
-              only: master
+              only: /v.*/
             tags:
               only: /v.*/
