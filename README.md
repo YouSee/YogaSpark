@@ -3,9 +3,9 @@
 
 # **YogaSpark**
 
-YogaSpark is a JavaScript library for building user interfaces on top of the [Spark browser](http://www.sparkui.org). It's using an [Elm'ish Architecture](https://guide.elm-lang.org/architecture/) to build modular, testable and scalable applications.
+YogaSpark is a JavaScript library for building user interfaces on top of the [Spark browser](http://www.sparkui.org). It's using an [Elm'ish Architecture](https://guide.elm-lang.org/architecture/) to build modular, testable and scalable applications. It utilizes the power of [yoga-layout](https://yogalayout.com/) to use [flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) and [absolute](https://developer.mozilla.org/en-US/docs/Web/CSS/position) positioning from css for positioning elements.
 
-## **Getting started**
+## **Run the examples**
 
 ### Download the spark browser
 
