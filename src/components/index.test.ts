@@ -1,7 +1,7 @@
 import { Node } from 'yoga-layout'
 import { Style, ViewElement } from '../yoga/types'
 import { SparkObjectTypes } from '../spark/types'
-import { scene, view, image, text } from '.'
+import { scene, view, image, text, container } from '.'
 import { Props } from './types'
 
 const getViewElement = (
@@ -15,11 +15,23 @@ const getViewElement = (
   style,
   children: [],
 })
+test('Should call render function with state hooks getState and setState', () => {
+  const viewElement: ViewElement = container(
+    'myTestKey',
+    (getState, setState) => {
+      setState({ height: 10, width: 10, left: 0, top: 0, right: 0, bottom: 0 })
+      return view({}, { top: getState().height, bottom: getState().width }, [])
+    },
+  )
+  expect(viewElement).toEqual(
+    getViewElement(SparkObjectTypes.Rect, { top: 10, bottom: 10 }, {}),
+  )
+})
 test('Should return ViewElement for scene', () => {
   const style: Style = { width: 666 }
 
   expect(scene(style, [])).toEqual(
-    getViewElement(SparkObjectTypes.Scene, style, {}),
+    getViewElement(SparkObjectTypes.Scene, style, { mask: true }),
   )
 })
 

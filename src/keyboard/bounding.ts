@@ -13,7 +13,7 @@ export const getBoundingBoxRight = (
 export const getBoundingBoxLeft = (
   viewElement: ViewElement,
 ): [number, number, number] => {
-  const { x, y, h, w } = viewElement.element
+  const { x, y, h } = viewElement.element
   const xAxisStart = x
   const yAxisTop = y
   const yAxisBottom = y + h
@@ -23,7 +23,7 @@ export const getBoundingBoxLeft = (
 export const getBoundingBoxUp = (
   viewElement: ViewElement,
 ): [number, number, number] => {
-  const { x, y, h, w } = viewElement.element
+  const { x, y, w } = viewElement.element
   const yAxisStart = y
   const xAxisStart = x
   const xAxisEnd = x + w
@@ -40,7 +40,17 @@ export const getBoundingBoxDown = (
   return [xAxisStart, xAxisEnd, yAxisStart]
 }
 
-const isElementInBox = (
+export const primaryAxisSelectorNegative = (
+  currentAxis: number,
+  activeAxis: number,
+): boolean => currentAxis < activeAxis
+
+export const primaryAxisSelectorPositive = (
+  currentAxis: number,
+  activeAxis: number,
+): boolean => currentAxis > activeAxis
+
+export const isElementInBox = (
   viewElement: ViewElement,
   activeElement: ViewElement,
   getBoudingRect: (viewElement: ViewElement) => [number, number, number],
@@ -68,16 +78,6 @@ const isElementInBox = (
     primaryAxisSelector(currentPrimaryAxisStart, activePrimaryAxisStart)
   return isInBox
 }
-
-export const primaryAxisSelectorNegative = (
-  currentAxis: number,
-  activeAxis: number,
-): boolean => currentAxis < activeAxis
-
-export const primaryAxisSelectorPositive = (
-  currentAxis: number,
-  activeAxis: number,
-): boolean => currentAxis > activeAxis
 
 export const isElementSelectableInBox = (
   boundingRectFunc: (viewElement: ViewElement) => [number, number, number],

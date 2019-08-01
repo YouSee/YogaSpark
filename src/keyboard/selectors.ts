@@ -100,6 +100,8 @@ export const findNewElementsSelector = (
         }
         return false
       }
+      default:
+        return false
     }
   }
   return false

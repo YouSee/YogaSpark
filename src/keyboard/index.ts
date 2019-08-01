@@ -1,14 +1,13 @@
-import { previousViews, activeElementKey } from '../'
+import { previousViews, activeElementKey } from '..'
 import { KeysMap, KeyEvent, Keys } from './types'
 import { ViewElement } from '../yoga/types'
 import { SparkScene, SparkEvents } from '../spark/types'
-import { inspect } from 'util'
 
 import { findActiveElementSelector, findNewElementsSelector } from './selectors'
 
 // change this function so it can be balled with currentNode, previousNode in the selector function
 // then we can make the find new element function simpler
-const findElementInTree = (
+export const findElementInTree = (
   tree: ViewElement,
   selector: (view: ViewElement, previousView?: ViewElement) => boolean,
   previousTree?: ViewElement,
@@ -29,7 +28,7 @@ const findElementInTree = (
   )
 }
 
-const getKeyTemplate = (keysMap: KeysMap) => ({
+export const getKeyTemplate = (keysMap: KeysMap) => ({
   [keysMap.LEFT]: Keys.Left,
   [keysMap.UP]: Keys.Up,
   [keysMap.RIGHT]: Keys.Right,
@@ -55,8 +54,6 @@ export const listenForKeyboardInput = (
         viewElement => findActiveElementSelector(viewElement, activeElementKey),
       )
 
-      console.log('found here', inspect(previousActiveElement.props))
-
       const nearestNeighbor: ViewElement = findElementInTree(
         previousViews,
         (viewElement: ViewElement, previousElement?: ViewElement) =>
@@ -67,8 +64,6 @@ export const listenForKeyboardInput = (
             previousElement,
           ),
       )
-
-      console.log(inspect(nearestNeighbor.props))
 
       if (nearestNeighbor && nearestNeighbor.props.key)
         onNewElementInFocus(nearestNeighbor.props.key)

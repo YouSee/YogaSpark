@@ -5,7 +5,7 @@ import { KeysMap } from './keyboard/types'
 import { listenForKeyboardInput } from './keyboard'
 
 declare let px: {
-  import: (file: string) => Promise<SparkScene | KeysMap>
+  import: (file: string) => Promise<any>
 }
 
 export * from './components'
@@ -16,7 +16,7 @@ export * from './yoga/types'
 export let sparkScene: SparkScene
 export let previousViews: ViewElement
 export let keysMap: KeysMap
-export let activeElementKey: string = 'roundedImage/0'
+export let activeElementKey = 'roundedImage/0'
 
 /**
  * render should probably take a function that produces an view element as first parameter
