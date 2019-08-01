@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "webpack --watch --mode=production --config webpack.config.js",
-    "test": "jest",
+    "test": "jest --coverage",
     "eslint-check": "eslint --fix --ext .ts ./src/**"
   },
   "author": "YouSee",

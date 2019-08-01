@@ -8,7 +8,12 @@ import {
   SparkTrucation,
 } from './types'
 
-export const getObject = (): SparkObject => ({
+export const getObject = (
+  x?: number,
+  y?: number,
+  w?: number,
+  h?: number,
+): SparkObject => ({
   getChild: jest.fn(),
   remove: jest.fn(),
   removeAll: jest.fn(),
@@ -21,6 +26,10 @@ export const getObject = (): SparkObject => ({
   on: jest.fn(),
   delListener: jest.fn(),
   getObjectById: jest.fn(),
+  x,
+  y,
+  h,
+  w,
 })
 
 export const getScene = (): SparkScene => ({

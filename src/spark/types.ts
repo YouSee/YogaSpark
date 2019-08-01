@@ -1,3 +1,5 @@
+import { KeyEvent } from '../keyboard/types'
+
 // from http://www.sparkui.org//docs/apis/index.html#animation_options
 export enum SparkTween {
   TWEEN_LINEAR = 0,
@@ -141,7 +143,7 @@ export interface SparkObject extends SparkObjectProperties {
     type?: SparkType,
     count?: SparkCount,
   ) => SparkObject
-  on: (event: SparkEvents, callback: () => void) => void
+  on: (event: SparkEvents, callback: (key: KeyEvent) => void) => void
   delListener: (event: SparkEvents, callback: () => void) => void
   getObjectById: (id: number) => SparkObject
   // scene
