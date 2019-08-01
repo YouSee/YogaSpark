@@ -2,7 +2,7 @@
   "name": "yoga-spark",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "dist/bundle.js",
   "scripts": {
     "start": "webpack --watch --mode=production --config webpack.config.js",
     "start:example": "webpack --watch --mode=production --config webpack.config.dev.js",
