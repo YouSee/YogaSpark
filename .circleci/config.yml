@@ -42,6 +42,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/node:8.12
+    working_directory: ~/repo
     steps:
       - attach_workspace:
           at: ~/repo
@@ -59,8 +60,3 @@ workflows:
       - deploy:
           requires:
             - test
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/

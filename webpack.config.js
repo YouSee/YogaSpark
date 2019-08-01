@@ -1,5 +1,4 @@
 const WebpackPluginSpark = require('webpack-plugin-spark')
-const CopyPlugin = require('copy-webpack-plugin')
 const path = require('path')
 
 module.exports = {
@@ -26,12 +25,6 @@ module.exports = {
       liveReload: true,
       static: path.join(__dirname, './dist'),
     }),
-    new CopyPlugin([
-      {
-        from: path.join(__dirname, './public'),
-        to: path.join(__dirname, './dist'),
-      },
-    ]),
   ],
   output: {
     filename: 'bundle.js',
