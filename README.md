@@ -1,4 +1,4 @@
-[![codecov](https://codecov.io/gh/YouSee/yoga-layout-spark-ui/branch/master/graph/badge.svg?token=gLNjJNaHDb)](https://codecov.io/gh/YouSee/yoga-layout-spark-ui)
+[![codecov](https://codecov.io/gh/YouSee/yogaspark/branch/master/graph/badge.svg)](https://codecov.io/gh/YouSee/yogaspark)
 [![CircleCI](https://circleci.com/gh/YouSee/YogaSpark.svg?style=svg)](https://circleci.com/gh/YouSee/yoga-layout-spark-ui)
 
 # **YogaSpark**
