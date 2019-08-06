@@ -47,6 +47,7 @@
     "webpack-plugin-spark": "^1.0.3"
   },
   "dependencies": {
+    "redux": "^4.0.4",
     "yoga-layout": "^1.9.3"
   }
 }

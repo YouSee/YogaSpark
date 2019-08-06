@@ -13,6 +13,7 @@ import {
   NodeLayout,
 } from '../../src'
 import { roundedImage } from './components/roundedImage'
+import { store } from './store'
 
 const viewChildren: null[] = [...Array(40)]
 
@@ -36,6 +37,7 @@ const view = (store, activeElementKey: string): ViewElement =>
       },
       viewChildren.map((_, index) =>
         roundedImage(
+          store,
           'https://scaled.yousee.tv/web?url=https%3A%2F%2Fimages.yousee.tv%2Fpics%2F179583726%2F1920x1080.jpg&width=1280&height=720',
           index,
           activeElementKey,
@@ -44,4 +46,4 @@ const view = (store, activeElementKey: string): ViewElement =>
     )
   })
 
-render(view, {})
+render(view, store)

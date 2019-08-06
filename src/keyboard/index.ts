@@ -39,6 +39,43 @@ export const getKeyTemplate = (keysMap: KeysMap) => ({
 export const mapEventToKey = (keyCode: number, keysMap: KeysMap) =>
   getKeyTemplate(keysMap)[keyCode]
 
+export const handleArrowKeys = (
+  keyAction: Keys,
+  onNewElementInFocus: (elementKey: string) => void,
+  previousElementViews: ViewElement = previousViews,
+  activeKey: string = activeElementKey,
+): void => {
+  const previousActiveElement: ViewElement = findElementInTree(
+    previousElementViews,
+    viewElement => findActiveElementSelector(viewElement, activeKey),
+  )
+
+  const nearestNeighbor: ViewElement = findElementInTree(
+    previousElementViews,
+    (viewElement: ViewElement, previousElement?: ViewElement) =>
+      findNewElementsSelector(
+        viewElement,
+        previousActiveElement,
+        keyAction,
+        previousElement,
+      ),
+  )
+
+  if (nearestNeighbor && nearestNeighbor.props.key)
+    onNewElementInFocus(nearestNeighbor.props.key)
+}
+
+export const handleEnterKey = (
+  previousElementViews: ViewElement = previousViews,
+  activeKey: string = activeElementKey,
+): void => {
+  const previousActiveElement: ViewElement = findElementInTree(
+    previousElementViews,
+    viewElement => findActiveElementSelector(viewElement, activeKey),
+  )
+  if (previousActiveElement.props.onClick) previousActiveElement.props.onClick()
+}
+
 export const listenForKeyboardInput = (
   sparkScene: SparkScene,
   keysMap: KeysMap,
@@ -48,25 +85,17 @@ export const listenForKeyboardInput = (
   sparkScene.root.on(SparkEvents.OnKeyDown, ({ keyCode }: KeyEvent): void => {
     const keyAction: Keys = mapEventToKey(keyCode, keysMap)
     // only supported keyboard actions
-    if (keyAction) {
-      const previousActiveElement: ViewElement = findElementInTree(
-        previousViews,
-        viewElement => findActiveElementSelector(viewElement, activeElementKey),
-      )
-
-      const nearestNeighbor: ViewElement = findElementInTree(
-        previousViews,
-        (viewElement: ViewElement, previousElement?: ViewElement) =>
-          findNewElementsSelector(
-            viewElement,
-            previousActiveElement,
-            keyAction,
-            previousElement,
-          ),
-      )
-
-      if (nearestNeighbor && nearestNeighbor.props.key)
-        onNewElementInFocus(nearestNeighbor.props.key)
+    switch (keyAction) {
+      case Keys.Down:
+      case Keys.Up:
+      case Keys.Left:
+      case Keys.Right:
+        handleArrowKeys(keyAction, onNewElementInFocus)
+        break
+      case Keys.Enter:
+        handleEnterKey()
+      default:
+        break
     }
   })
 }

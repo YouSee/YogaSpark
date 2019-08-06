@@ -12,6 +12,7 @@ export interface Props {
   active?: boolean
   key?: string
   onRef?: OnRef
+  onClick?: () => any
   [key: string]: string | boolean | number | OnRef
 }
 

@@ -1,11 +1,16 @@
 import {
   view,
   image,
+  text,
   container,
   ViewElement,
   POSITION,
   Style,
+  DISPLAY,
+  JUSTIFY_CONTENT,
+  ALIGN,
 } from '../../../src'
+import { store } from '../store'
 
 const childStyle = (isActive: boolean): Style => ({
   flexGrow: 1,
@@ -21,15 +26,19 @@ const imageStyle: Style = {
   position: POSITION.POSITION_TYPE_ABSOLUTE,
   height: '100%',
   width: '100%',
+  display: DISPLAY.DISPLAY_FLEX,
+  justifyContent: JUSTIFY_CONTENT.JUSTIFY_CENTER,
+  alignItems: ALIGN.ALIGN_CENTER,
 }
 
 export const roundedImage = (
+  counter: string,
   url: string,
   index: number,
   activeElementKey: string,
 ): ViewElement => {
   const key = `roundedImage/${index}`
-  return container(key, (getState, setState) => {
+  return container(key, (_getState, setState) => {
     const isActive = key === activeElementKey
     return view(
       {
@@ -39,6 +48,8 @@ export const roundedImage = (
         onRef: nodeLayout => {
           setState(nodeLayout)
         },
+        onClick: () =>
+          store.dispatch({ type: index % 2 === 0 ? 'INCREMENT' : 'DECREMENT' }),
       },
       childStyle(isActive),
       [
@@ -58,7 +69,7 @@ export const roundedImage = (
             url,
           },
           imageStyle,
-          [],
+          [text({ text: counter }, { width: 10, height: 10 }, [])],
         ),
       ],
     )
