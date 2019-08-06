@@ -45,10 +45,7 @@ import {
   WRAP_NO_WRAP,
   WRAP_WRAP,
   WRAP_WRAP_REVERSE,
-  YogaNode,
 } from 'yoga-layout'
-import { SparkObject, SparkObjectTypes } from '../spark/types'
-import { Props } from '../components/types'
 
 export const EDGES = {
   EDGE_LEFT,
@@ -145,13 +142,4 @@ export interface NodeLayout {
   bottom: number
   width: number
   height: number
-}
-export interface ViewElement {
-  type: SparkObjectTypes
-  node: YogaNode
-  props: Props
-  style: Style
-  element?: SparkObject
-  nodeLayout?: NodeLayout
-  children: ViewElement[]
 }

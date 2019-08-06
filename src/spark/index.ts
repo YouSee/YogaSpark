@@ -1,6 +1,6 @@
 import { SparkScene, SparkObject, SparkStretch, SparkTween } from './types'
-import { Props } from '../components/types'
-import { ViewElement, Style, NodeLayout } from '../yoga/types'
+import { Props, ViewElement } from '../components/types'
+import { Style, NodeLayout } from '../yoga/types'
 
 export const getChildrenMaxLength = (
   newNode?: ViewElement,

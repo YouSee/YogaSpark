@@ -1,9 +1,9 @@
-import { previousViews, activeElementKey } from '..'
+import { getViewElement, getActiveKey } from '../state'
 import { KeysMap, KeyEvent, Keys } from './types'
-import { ViewElement } from '../yoga/types'
-import { SparkScene, SparkEvents } from '../spark/types'
-
+import { ViewElement } from '../components/types'
 import { findActiveElementSelector, findNewElementsSelector } from './selectors'
+
+import { SparkScene, SparkEvents } from '../spark/types'
 
 // change this function so it can be balled with currentNode, previousNode in the selector function
 // then we can make the find new element function simpler
@@ -42,8 +42,8 @@ export const mapEventToKey = (keyCode: number, keysMap: KeysMap) =>
 export const handleArrowKeys = (
   keyAction: Keys,
   onNewElementInFocus: (elementKey: string) => void,
-  previousElementViews: ViewElement = previousViews,
-  activeKey: string = activeElementKey,
+  previousElementViews: ViewElement = getViewElement(),
+  activeKey: string = getActiveKey(),
 ): void => {
   const previousActiveElement: ViewElement = findElementInTree(
     previousElementViews,
@@ -66,8 +66,8 @@ export const handleArrowKeys = (
 }
 
 export const handleEnterKey = (
-  previousElementViews: ViewElement = previousViews,
-  activeKey: string = activeElementKey,
+  previousElementViews: ViewElement = getViewElement(),
+  activeKey: string = getActiveKey(),
 ): void => {
   const previousActiveElement: ViewElement = findElementInTree(
     previousElementViews,
@@ -93,6 +93,7 @@ export const listenForKeyboardInput = (
         break
       case Keys.Enter:
         handleEnterKey()
+        break
       default:
         break
     }

@@ -1,4 +1,4 @@
-import { ViewElement } from '../yoga/types'
+import { ViewElement } from '../components/types'
 import { Keys } from './types'
 import { SparkObject } from '../spark/types'
 import { findActiveElementSelector, findNewElementsSelector } from './selectors'

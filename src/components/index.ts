@@ -1,7 +1,8 @@
-import { Style, ViewElement, NodeLayout } from '../yoga/types'
+import { Style, NodeLayout } from '../yoga/types'
+import { ViewElement, Props } from './types'
 import { createNodeTree } from '../yoga'
 import { SparkObjectTypes } from '../spark/types'
-import { Props } from './types'
+
 import { globalState, stateHook } from './state'
 
 const [getGlobalState, setGlobalState] = globalState()

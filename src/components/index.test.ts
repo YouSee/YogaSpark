@@ -1,8 +1,8 @@
 import { Node } from 'yoga-layout'
-import { Style, ViewElement } from '../yoga/types'
+import { Style } from '../yoga/types'
+import { ViewElement, Props } from './types'
 import { SparkObjectTypes } from '../spark/types'
 import { scene, view, image, text, container } from '.'
-import { Props } from './types'
 
 const getViewElement = (
   type: SparkObjectTypes,

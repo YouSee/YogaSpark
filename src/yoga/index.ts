@@ -1,6 +1,6 @@
 import { Node, YogaNode } from 'yoga-layout'
-import { EDGES, Style, ViewElement } from './types'
-import { Props } from '../components/types'
+import { EDGES, Style } from './types'
+import { Props, ViewElement } from '../components/types'
 import { SparkScene, SparkObjectTypes } from '../spark/types'
 import { recursivelyRenderNodes } from '../spark'
 

@@ -1,8 +1,8 @@
 import { Node, YogaNode } from 'yoga-layout'
 import { createViewElement, createNode, createNodeTree } from '.'
 import { SparkObjectTypes } from '../spark/types'
-import { Style, ViewElement } from './types'
-import { Props } from '../components/types'
+import { Style } from './types'
+import { Props, ViewElement } from '../components/types'
 
 test('Should return ViewElement object', () => {
   const viewElement: ViewElement = createViewElement(

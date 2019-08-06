@@ -1,8 +1,16 @@
 import { Store } from 'redux'
+import { ViewElement } from './components/types'
 import { initView } from './yoga'
-import { ViewElement } from './yoga/types'
-import { SparkScene } from './spark/types'
-import { KeysMap } from './keyboard/types'
+import {
+  getScene,
+  setScene,
+  getViewElement,
+  setViewElement,
+  getKeysMap,
+  setKeysMap,
+  getActiveKey,
+  setActiveKey,
+} from './state'
 import { listenForKeyboardInput } from './keyboard'
 
 declare let px: {
@@ -10,36 +18,36 @@ declare let px: {
 }
 
 export * from './components'
+export * from './components/types'
 export * from './spark/types'
 export * from './yoga'
 export * from './yoga/types'
-
-export let sparkScene: SparkScene
-export let previousViews: ViewElement
-export let keysMap: KeysMap
-export let activeElementKey = 'roundedImage/0'
 
 export const render = async (
   view: (store: object, activeElementKey: string) => ViewElement,
   store?: Store,
 ): Promise<void> => {
   const updateView = (elementKey: string): void => {
-    if (elementKey !== activeElementKey) activeElementKey = elementKey
-    previousViews = initView(
-      view(store.getState(), activeElementKey),
-      previousViews,
-      sparkScene,
+    if (elementKey !== getActiveKey()) setActiveKey(elementKey)
+    setViewElement(
+      initView(
+        view(store.getState(), getActiveKey()),
+        getViewElement(),
+        getScene(),
+      ),
     )
   }
   // first render
-  if (!sparkScene || !keysMap) {
-    sparkScene = await px.import('px:scene.1.js')
-    keysMap = await px.import('px:tools.keys.js')
+  if (!getScene() || !getKeysMap()) {
+    const sparkScene = await px.import('px:scene.1.js')
+    const keysMap = await px.import('px:tools.keys.js')
+    setScene(sparkScene)
+    setKeysMap(keysMap)
 
-    listenForKeyboardInput(sparkScene, keysMap, updateView)
-    if (store) store.subscribe(() => updateView(activeElementKey))
-    updateView(activeElementKey)
+    listenForKeyboardInput(getScene(), getKeysMap(), updateView)
+    if (store) store.subscribe(() => updateView(getActiveKey()))
+    updateView(getActiveKey())
   } else {
-    updateView(activeElementKey)
+    updateView(getActiveKey())
   }
 }

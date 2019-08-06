@@ -6,8 +6,8 @@ import {
   recursivelyRenderNodes,
 } from '.'
 import { SparkObjectTypes, SparkScene, SparkObject } from './types'
+import { ViewElement } from '../components/types'
 import { getObject, getScene } from './index.mock'
-import { ViewElement } from '../yoga/types'
 
 const getViewElement = (children: ViewElement[]): ViewElement => ({
   type: SparkObjectTypes.Rect,

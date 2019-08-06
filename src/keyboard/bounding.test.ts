@@ -1,6 +1,5 @@
 import { Node } from 'yoga-layout'
-import { ViewElement } from '../yoga/types'
-import { Props } from '../components/types'
+import { Props, ViewElement } from '../components/types'
 import { SparkObjectTypes, SparkObject } from '../spark/types'
 import { getObject } from '../spark/index.mock'
 import {

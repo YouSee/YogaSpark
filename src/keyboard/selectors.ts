@@ -1,4 +1,4 @@
-import { ViewElement } from '../yoga/types'
+import { ViewElement } from '../components/types'
 import { Keys } from './types'
 import {
   getBoundingBoxRight,
