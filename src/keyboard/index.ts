@@ -81,7 +81,6 @@ export const listenForKeyboardInput = (
   keysMap: KeysMap,
   onNewElementInFocus: (elementKey: string) => void,
 ): void => {
-  sparkScene.root.focus = true
   sparkScene.root.on(SparkEvents.OnKeyDown, ({ keyCode }: KeyEvent): void => {
     const keyAction: Keys = mapEventToKey(keyCode, keysMap)
     // only supported keyboard actions
