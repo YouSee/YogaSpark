@@ -15,6 +15,7 @@ export const createViewElement = (
   children: ViewElement[],
 ): ViewElement => ({ type, node, props, style, children })
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createNode = (style: Style, yogaNode: any = Node): YogaNode => {
   const node: YogaNode = yogaNode.create()
   if (style.display) node.setDisplay(style.display)

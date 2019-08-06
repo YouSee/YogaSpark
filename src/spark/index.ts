@@ -12,8 +12,8 @@ export const getChildrenMaxLength = (
   )
 
 export const getObjectDiff = (
-  newObject: { [key: string]: any },
-  oldObject: { [key: string]: any },
+  newObject: { [key: string]: any }, // eslint-disable-line @typescript-eslint/no-explicit-any
+  oldObject: { [key: string]: any }, // eslint-disable-line @typescript-eslint/no-explicit-any
 ) =>
   Object.keys(newObject).reduce(
     (accumulator, key) =>
@@ -24,7 +24,7 @@ export const getObjectDiff = (
   )
 
 export const translateYogaToSparkLayoutKeys = (layout: {
-  [key: string]: any
+  [key: string]: any // eslint-disable-line @typescript-eslint/no-explicit-any
 }) => {
   const keysToTranslate: { [key: string]: string } = {
     top: 'y',
@@ -83,7 +83,7 @@ export const updateElement = (newNode: ViewElement, oldNode: ViewElement) => {
 
   const propsDiffKeys: string[] = Object.keys(propsDiff)
   if (propsDiffKeys.length > 0) {
-    propsDiffKeys.forEach(key => {
+    propsDiffKeys.forEach((key: string) => {
       element[key] = propsDiff[key]
     })
   }
@@ -130,14 +130,16 @@ export const recursivelyRenderNodes = (
   }
   return {
     ...newParent,
-    children: [...Array(getChildrenMaxLength(newNode, oldNode))].map(
-      (_: any, idx: number) =>
-        recursivelyRenderNodes(
-          scene,
-          newParent ? newParent.element : null,
-          newNode && newNode.children[idx],
-          oldNode && oldNode.children[idx],
-        ),
+    children: [...Array(getChildrenMaxLength(newNode, oldNode))].map((
+      _: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+      idx: number,
+    ) =>
+      recursivelyRenderNodes(
+        scene,
+        newParent ? newParent.element : null,
+        newNode && newNode.children[idx],
+        oldNode && oldNode.children[idx],
+      ),
     ),
   }
 }

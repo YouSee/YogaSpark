@@ -87,7 +87,7 @@ export interface SparkScene {
   alignHorizontal: SparkAlignHorizontal
   trucation: SparkTrucation
   create: (json: SparkObjectPropertiesCreate) => SparkObject
-  on: (type: SparkSceneEvents, callback: (e: any) => any) => void
+  on: (type: SparkSceneEvents, callback: (e: any) => any) => void // eslint-disable-line @typescript-eslint/no-explicit-any
   delListener: (type: SparkSceneEvents, callback: () => void) => void
   getFocus: () => SparkObject
 }
@@ -159,5 +159,5 @@ export interface SparkObject extends SparkObjectProperties {
   // text
   text?: string
   // for dynamicly uploading props...
-  [key: string]: any
+  [key: string]: any // eslint-disable-line @typescript-eslint/no-explicit-any
 }

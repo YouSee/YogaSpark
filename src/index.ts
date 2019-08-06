@@ -14,7 +14,7 @@ import {
 import { listenForKeyboardInput } from './keyboard'
 
 declare let px: {
-  import: (file: string) => Promise<any>
+  import: (file: string) => Promise<any> // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export * from './components'

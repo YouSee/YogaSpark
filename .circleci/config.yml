@@ -33,6 +33,8 @@ jobs:
       - persist_to_workspace:
           root: ~/repo
           paths: .
+      # check linting!
+      - run: npm run eslint-check
       # run tests!
       - run: npm run test
       # upload coverage!
