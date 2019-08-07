@@ -37,4 +37,5 @@ export const text = (
   props: Props,
   style: Style,
   children: ViewElement[],
-): ViewElement => createNodeTree(SparkObjectTypes.Text, props, style, children)
+): ViewElement =>
+  createNodeTree(SparkObjectTypes.TextBox, props, style, children)

@@ -10,6 +10,7 @@ import {
   JUSTIFY_CONTENT,
   ALIGN,
 } from '../../../src'
+import { roundedRect } from '../constants'
 import { store } from '../store'
 
 const childStyle = (isActive: boolean): Style => ({
@@ -58,7 +59,7 @@ export const roundedImage = (
             clip: true,
             mask: true,
             draw: true,
-            url: `${px.getPackageBaseFilePath()}/rrect.svg`,
+            url: roundedRect,
           },
           imageStyle,
           [],

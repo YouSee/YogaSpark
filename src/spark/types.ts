@@ -75,6 +75,7 @@ export enum SparkObjectTypes {
   Rect = 'rect',
   Image = 'image',
   Scene = 'scene',
+  TextBox = 'textBox',
 }
 // from http://www.sparkui.org//docs/apis/index.html
 export interface SparkScene {
