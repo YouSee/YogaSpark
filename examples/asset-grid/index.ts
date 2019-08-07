@@ -16,7 +16,7 @@ import {
   SparkAlignHorizontal,
   SparkAlignVertical,
 } from '../../src'
-import { roundedImage } from './components/roundedImage'
+import { asset } from './components/asset'
 import { store } from './store'
 import { fontBold } from './constants'
 
@@ -27,7 +27,7 @@ const getTop = (state?: NodeLayout): number => {
   return 0
 }
 
-const title = title =>
+const title = (title: string): ViewElement =>
   text(
     {
       fontUrl: fontBold,
@@ -43,6 +43,28 @@ const title = title =>
     [],
   )
 
+const grid = (store: string, activeElementKey: string): ViewElement =>
+  view(
+    { fillColor: 0x00000000 },
+    {
+      display: DISPLAY.DISPLAY_FLEX,
+      flexDirection: FLEX_DIRECTION.FLEX_DIRECTION_ROW,
+      flexWrap: FLEX_WRAP.WRAP_WRAP,
+      justifyContent: JUSTIFY_CONTENT.JUSTIFY_FLEX_START,
+      alignItems: ALIGN.ALIGN_FLEX_START,
+    },
+    viewChildren.map((_, index) =>
+      asset(
+        store,
+        'https://scaled.yousee.tv/web?url=https%3A%2F%2Fimages.yousee.tv%2Fpics%2F179583726%2F1920x1080.jpg&width=1280&height=720',
+        'Avengers Endgame',
+        'fantasy | 2019',
+        index,
+        activeElementKey,
+      ),
+    ),
+  )
+
 const app = (store, activeElementKey: string): ViewElement =>
   container(activeElementKey, getState => {
     return scene(
@@ -51,27 +73,7 @@ const app = (store, activeElementKey: string): ViewElement =>
         height: WINDOW_HEIGHT,
         top: getTop(getState()),
       },
-      [
-        title('Action film'),
-        view(
-          {},
-          {
-            display: DISPLAY.DISPLAY_FLEX,
-            flexDirection: FLEX_DIRECTION.FLEX_DIRECTION_ROW,
-            flexWrap: FLEX_WRAP.WRAP_WRAP,
-            justifyContent: JUSTIFY_CONTENT.JUSTIFY_FLEX_START,
-            alignItems: ALIGN.ALIGN_FLEX_START,
-          },
-          viewChildren.map((_, index) =>
-            roundedImage(
-              store,
-              'https://scaled.yousee.tv/web?url=https%3A%2F%2Fimages.yousee.tv%2Fpics%2F179583726%2F1920x1080.jpg&width=1280&height=720',
-              index,
-              activeElementKey,
-            ),
-          ),
-        ),
-      ],
+      [title('Action film'), grid(store, activeElementKey)],
     )
   })
 
