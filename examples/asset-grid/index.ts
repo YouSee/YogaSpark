@@ -15,6 +15,7 @@ import {
   NodeLayout,
   SparkAlignHorizontal,
   SparkAlignVertical,
+  SparkTween,
 } from '../../src'
 import { asset } from './components/asset'
 import { store } from './store'
@@ -51,7 +52,7 @@ const grid = (store: string, activeElementKey: string): ViewElement =>
       flexDirection: FLEX_DIRECTION.FLEX_DIRECTION_ROW,
       flexWrap: FLEX_WRAP.WRAP_WRAP,
       justifyContent: JUSTIFY_CONTENT.JUSTIFY_FLEX_START,
-      alignItems: ALIGN.ALIGN_FLEX_START,
+      alignItems: ALIGN.ALIGN_FLEX_END,
     },
     viewChildren.map((_, index) =>
       asset(
@@ -73,6 +74,7 @@ const app = (store, activeElementKey: string): ViewElement =>
         height: WINDOW_HEIGHT,
         top: getTop(getState()),
       },
+      { mask: true, animation: { time: 1, type: SparkTween.TWEEN_LINEAR } },
       [title('Action film'), grid(store, activeElementKey)],
     )
   })

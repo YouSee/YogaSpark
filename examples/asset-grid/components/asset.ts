@@ -17,10 +17,10 @@ const childStyle = (isActive: boolean): Style => ({
   flexGrow: 1,
   height: 250,
   ...(isActive
-    ? { marginRight: 5, marginLeft: 5, marginTop: 2 }
-    : { marginRight: 5, marginLeft: 5, marginTop: 5 }),
-  marginBottom: 5,
-  flexBasis: '20%',
+    ? { marginRight: 2, marginLeft: 2 }
+    : { marginRight: 5, marginLeft: 5 }),
+  marginBottom: 100,
+  width: '20%',
 })
 
 const assetText = (title: string, subtitle: string, counter: string) =>
@@ -29,7 +29,7 @@ const assetText = (title: string, subtitle: string, counter: string) =>
     {
       display: DISPLAY.DISPLAY_FLEX,
       flexDirection: FLEX_DIRECTION.FLEX_DIRECTION_COLUMN,
-      justifyContent: JUSTIFY_CONTENT.JUSTIFY_FLEX_START,
+      justifyContent: JUSTIFY_CONTENT.JUSTIFY_SPACE_BETWEEN,
       alignItems: ALIGN.ALIGN_FLEX_START,
       height: '20%',
     },

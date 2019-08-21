@@ -18,8 +18,11 @@ export const container = (
   return render(getState, setState)
 }
 
-export const scene = (style: Style, children: ViewElement[]): ViewElement =>
-  createNodeTree(SparkObjectTypes.Scene, { mask: true }, style, children)
+export const scene = (
+  style: Style,
+  props: Props,
+  children: ViewElement[],
+): ViewElement => createNodeTree(SparkObjectTypes.Scene, props, style, children)
 
 export const view = (
   props: Props,

@@ -1,5 +1,5 @@
 import { SparkScene, SparkObject, SparkStretch, SparkTween } from './types'
-import { Props, ViewElement } from '../components/types'
+import { Props, ViewElement, Animation } from '../components/types'
 import { Style, NodeLayout } from '../yoga/types'
 
 export const getChildrenMaxLength = (
@@ -41,43 +41,62 @@ export const translateYogaToSparkLayoutKeys = (layout: {
   )
 }
 
+export const getAnimationWithDefault = (
+  animation?: Animation,
+): [number, SparkTween] => {
+  if (animation) return [animation.time, animation.type]
+  return [0, SparkTween.EASE_IN_BACK]
+}
+
 export const createElement = (
   scene: SparkScene,
   parent: SparkObject,
   nodeObject: ViewElement,
 ): ViewElement => {
-  const { type, props, node } = nodeObject
+  const {
+    type,
+    props: { animation, ...restProps },
+    node,
+  } = nodeObject
 
   const nodeLayout: NodeLayout = node.getComputedLayout()
 
   const element = scene.create({
     t: type,
-    ...props,
+    ...restProps,
     parent,
     ...translateYogaToSparkLayoutKeys(nodeLayout),
     stretchX: SparkStretch.STRETCH,
     stretchY: SparkStretch.STRETCH,
   })
 
-  if (props.onRef) props.onRef(nodeLayout)
+  if (restProps.onRef) restProps.onRef(nodeLayout)
 
   return { ...nodeObject, nodeLayout, element }
 }
 
 export const updateElement = (newNode: ViewElement, oldNode: ViewElement) => {
-  const { node, element } = newNode
+  const {
+    node,
+    element,
+    props: { animation: newAnimation, ...restNewProps },
+  } = newNode
+  const {
+    props: { animation: oldAnimation, ...restOldProps },
+  } = oldNode
 
   const newNodeLayout: NodeLayout = node.getComputedLayout()
 
   const styleDiff: Style = getObjectDiff(newNodeLayout, oldNode.nodeLayout)
-  const propsDiff: Props = getObjectDiff(newNode.props, oldNode.props)
+  const propsDiff: Props = getObjectDiff(restNewProps, restOldProps)
 
   if (Object.keys(styleDiff).length > 0) {
     // TODO should be dynamic
+    const [time, type] = getAnimationWithDefault(newAnimation)
     element.animateTo(
       { ...translateYogaToSparkLayoutKeys(styleDiff) },
-      1,
-      SparkTween.EASE_OUT_ELASTIC,
+      time,
+      type,
     )
   }
 
@@ -88,7 +107,7 @@ export const updateElement = (newNode: ViewElement, oldNode: ViewElement) => {
     })
   }
 
-  if (newNode.props.onRef) newNode.props.onRef(newNodeLayout)
+  if (restNewProps.onRef) restNewProps.onRef(newNodeLayout)
 
   return { ...newNode, nodeLayout: newNodeLayout }
 }
@@ -130,16 +149,19 @@ export const recursivelyRenderNodes = (
   }
   return {
     ...newParent,
-    children: [...Array(getChildrenMaxLength(newNode, oldNode))].map((
+    children: [...Array(getChildrenMaxLength(newNode, oldNode))].reduce((
+      acc: ViewElement[],
       _: any, // eslint-disable-line @typescript-eslint/no-explicit-any
       idx: number,
-    ) =>
-      recursivelyRenderNodes(
+    ) => {
+      const child = recursivelyRenderNodes(
         scene,
         newParent ? newParent.element : null,
         newNode && newNode.children[idx],
         oldNode && oldNode.children[idx],
-      ),
-    ),
+      )
+      if (child) return [...acc, child]
+      return acc
+    }, []),
   }
 }

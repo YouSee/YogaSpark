@@ -1,7 +1,6 @@
 import {
   view,
   image,
-  text,
   ViewElement,
   POSITION,
   Style,
@@ -11,10 +10,10 @@ import {
 } from '../../../src'
 import { roundedRect } from '../constants'
 
-const childStyle: Style = {
+const childStyle = (isActive: boolean): Style => ({
   width: '100%',
-  height: '80%',
-}
+  height: isActive ? '82%' : '80%',
+})
 
 const imageStyle: Style = {
   position: POSITION.POSITION_TYPE_ABSOLUTE,
@@ -30,24 +29,55 @@ export const roundedImage = (url: string, isActive: boolean): ViewElement =>
     {
       fillColor: 0x00000000,
     },
-    childStyle,
+    childStyle(isActive),
     [
-      image(
-        {
-          clip: true,
-          mask: true,
-          draw: true,
-          url: roundedRect,
-        },
-        imageStyle,
-        [],
-      ),
-      image(
-        {
-          url,
-        },
-        imageStyle,
-        [],
+      ...(isActive
+        ? [
+            view({ fillColor: 0x00000000 }, imageStyle, [
+              image(
+                {
+                  clip: true,
+                  mask: true,
+                  draw: true,
+                  url: roundedRect,
+                },
+                imageStyle,
+                [],
+              ),
+              view({ fillColor: '#ffffff' }, imageStyle, []),
+            ]),
+          ]
+        : []),
+      view(
+        { fillColor: 0x00000000 },
+        isActive
+          ? {
+              position: POSITION.POSITION_TYPE_ABSOLUTE,
+              top: 4,
+              left: 4,
+              right: 4,
+              bottom: 4,
+            }
+          : imageStyle,
+        [
+          image(
+            {
+              clip: true,
+              mask: true,
+              draw: true,
+              url: roundedRect,
+            },
+            imageStyle,
+            [],
+          ),
+          image(
+            {
+              url,
+            },
+            imageStyle,
+            [],
+          ),
+        ],
       ),
     ],
   )
