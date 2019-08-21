@@ -100,13 +100,6 @@ export const getPrimaryAxisForLeftAndRight = (
   viewElement: ViewElement,
 ): number => viewElement.element.x
 
-export const getPrimarySizeForDownAndUp = (viewElement: ViewElement): number =>
-  viewElement.element.w
-
-export const getPrimarySizeForLeftAndRight = (
-  viewElement: ViewElement,
-): number => viewElement.element.h
-
 export const isElementCloser = (
   viewElement: ViewElement,
   activeElement: ViewElement,
