@@ -8,30 +8,36 @@ import {
   JUSTIFY_CONTENT,
   ALIGN,
   SparkAlignVertical,
+  POSITION,
 } from '../../../src'
 import { font } from '../constants'
 import { store } from '../store'
 import { roundedImage } from './roundedImage'
 
 const childStyle = (isActive: boolean): Style => ({
+  position: POSITION.POSITION_TYPE_RELATIVE,
   flexGrow: 1,
-  height: 250,
+  height: isActive ? 260 : 250,
   ...(isActive
-    ? { marginRight: 2, marginLeft: 2 }
-    : { marginRight: 5, marginLeft: 5 }),
+    ? { paddingRight: 10, paddingLeft: 10 }
+    : { paddingRight: 20, paddingLeft: 20 }),
   marginBottom: 100,
-  width: '20%',
+  width: '25%',
 })
 
 const assetText = (title: string, subtitle: string, counter: string) =>
   view(
     { fillColor: 0x00000000 },
     {
+      position: POSITION.POSITION_TYPE_ABSOLUTE,
+      bottom: 10,
+      left: 5,
+      right: 5,
+      height: 50,
       display: DISPLAY.DISPLAY_FLEX,
       flexDirection: FLEX_DIRECTION.FLEX_DIRECTION_COLUMN,
       justifyContent: JUSTIFY_CONTENT.JUSTIFY_SPACE_BETWEEN,
       alignItems: ALIGN.ALIGN_FLEX_START,
-      height: '20%',
     },
     [
       text(
@@ -82,7 +88,7 @@ export const asset = (
           store.dispatch({ type: index % 2 === 0 ? 'INCREMENT' : 'DECREMENT' }),
       },
       childStyle(isActive),
-      [roundedImage(url, isActive), assetText(title, subtitle, counter)],
+      [assetText(title, subtitle, counter), roundedImage(url, isActive)],
     )
   })
 }

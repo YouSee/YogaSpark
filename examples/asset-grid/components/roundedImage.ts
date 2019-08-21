@@ -12,7 +12,7 @@ import { roundedRect } from '../constants'
 
 const childStyle = (isActive: boolean): Style => ({
   width: '100%',
-  height: isActive ? '82%' : '80%',
+  height: isActive ? 190 : 180,
 })
 
 const imageStyle: Style = {

@@ -24,7 +24,7 @@ import { fontBold } from './constants'
 const viewChildren: null[] = [...Array(40)]
 
 const getTop = (state?: NodeLayout): number => {
-  if (state && state.top > 5) return (state.top - state.height) * -1
+  if (state && state.top > 10) return (state.top - state.height) * -1
   return 0
 }
 
@@ -74,7 +74,7 @@ const app = (store, activeElementKey: string): ViewElement =>
         height: WINDOW_HEIGHT,
         top: getTop(getState()),
       },
-      { mask: true, animation: { time: 1, type: SparkTween.TWEEN_LINEAR } },
+      { mask: true, animation: { time: 0.2, type: SparkTween.TWEEN_LINEAR } },
       [title('Action film'), grid(store, activeElementKey)],
     )
   })
