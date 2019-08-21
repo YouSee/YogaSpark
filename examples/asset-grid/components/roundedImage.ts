@@ -7,6 +7,7 @@ import {
   DISPLAY,
   JUSTIFY_CONTENT,
   ALIGN,
+  SparkTween,
 } from '../../../src'
 import { roundedRect } from '../constants'
 
@@ -28,6 +29,9 @@ export const roundedImage = (url: string, isActive: boolean): ViewElement =>
   view(
     {
       fillColor: 0x00000000,
+      ...(isActive
+        ? { animation: { time: 0.1, type: SparkTween.TWEEN_LINEAR } }
+        : {}),
     },
     childStyle(isActive),
     [
