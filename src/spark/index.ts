@@ -55,7 +55,7 @@ export const createElement = (
 ): ViewElement => {
   const {
     type,
-    props: { animation, ...restProps },
+    props: { animation: _animation, ...restProps },
     node,
   } = nodeObject
 
@@ -82,7 +82,7 @@ export const updateElement = (newNode: ViewElement, oldNode: ViewElement) => {
     props: { animation: newAnimation, ...restNewProps },
   } = newNode
   const {
-    props: { animation: oldAnimation, ...restOldProps },
+    props: { animation: _oldAnimation, ...restOldProps },
   } = oldNode
 
   const newNodeLayout: NodeLayout = node.getComputedLayout()
@@ -149,19 +149,18 @@ export const recursivelyRenderNodes = (
   }
   return {
     ...newParent,
-    children: [...Array(getChildrenMaxLength(newNode, oldNode))].reduce((
-      acc: ViewElement[],
-      _: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-      idx: number,
-    ) => {
-      const child = recursivelyRenderNodes(
-        scene,
-        newParent ? newParent.element : null,
-        newNode && newNode.children[idx],
-        oldNode && oldNode.children[idx],
-      )
-      if (child) return [...acc, child]
-      return acc
-    }, []),
+    children: [...Array(getChildrenMaxLength(newNode, oldNode))].reduce(
+      (acc: ViewElement[], _child: ViewElement, idx: number) => {
+        const child = recursivelyRenderNodes(
+          scene,
+          newParent ? newParent.element : null,
+          newNode && newNode.children[idx],
+          oldNode && oldNode.children[idx],
+        )
+        if (child) return [...acc, child]
+        return acc
+      },
+      [],
+    ),
   }
 }
