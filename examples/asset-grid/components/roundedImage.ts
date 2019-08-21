@@ -1,25 +1,19 @@
 import {
   view,
   image,
-  text,
-  container,
   ViewElement,
   POSITION,
   Style,
   DISPLAY,
   JUSTIFY_CONTENT,
   ALIGN,
+  SparkTween,
 } from '../../../src'
-import { store } from '../store'
+import { roundedRect } from '../constants'
 
 const childStyle = (isActive: boolean): Style => ({
-  flexGrow: 1,
-  height: 200,
-  ...(isActive
-    ? { marginRight: 5, marginLeft: 5, marginTop: 2 }
-    : { marginRight: 5, marginLeft: 5, marginTop: 5 }),
-  marginBottom: 5,
-  flexBasis: '20%',
+  width: '100%',
+  height: isActive ? 190 : 180,
 })
 
 const imageStyle: Style = {
@@ -31,47 +25,63 @@ const imageStyle: Style = {
   alignItems: ALIGN.ALIGN_CENTER,
 }
 
-export const roundedImage = (
-  counter: string,
-  url: string,
-  index: number,
-  activeElementKey: string,
-): ViewElement => {
-  const key = `roundedImage/${index}`
-  return container(key, (_getState, setState) => {
-    const isActive = key === activeElementKey
-    return view(
-      {
-        fillColor: 0x00000000,
-        selectable: true,
-        key,
-        onRef: nodeLayout => {
-          setState(nodeLayout)
-        },
-        onClick: () =>
-          store.dispatch({ type: index % 2 === 0 ? 'INCREMENT' : 'DECREMENT' }),
-      },
-      childStyle(isActive),
-      [
-        image(
-          {
-            clip: true,
-            mask: true,
-            draw: true,
-            url: `${px.getPackageBaseFilePath()}/rrect.svg`,
-          },
-          imageStyle,
-          [],
-        ),
-        image(
-          {
-            ...(isActive ? { a: 0.5 } : { a: 1 }),
-            url,
-          },
-          imageStyle,
-          [text({ text: counter }, { width: 10, height: 10 }, [])],
-        ),
-      ],
-    )
-  })
-}
+export const roundedImage = (url: string, isActive: boolean): ViewElement =>
+  view(
+    {
+      fillColor: 0x00000000,
+      ...(isActive
+        ? { animation: { time: 0.1, type: SparkTween.TWEEN_LINEAR } }
+        : {}),
+    },
+    childStyle(isActive),
+    [
+      ...(isActive
+        ? [
+            view({ fillColor: 0x00000000 }, imageStyle, [
+              image(
+                {
+                  clip: true,
+                  mask: true,
+                  draw: true,
+                  url: roundedRect,
+                },
+                imageStyle,
+                [],
+              ),
+              view({ fillColor: '#ffffff' }, imageStyle, []),
+            ]),
+          ]
+        : []),
+      view(
+        { fillColor: 0x00000000 },
+        isActive
+          ? {
+              position: POSITION.POSITION_TYPE_ABSOLUTE,
+              top: 4,
+              left: 4,
+              right: 4,
+              bottom: 4,
+            }
+          : imageStyle,
+        [
+          image(
+            {
+              clip: true,
+              mask: true,
+              draw: true,
+              url: roundedRect,
+            },
+            imageStyle,
+            [],
+          ),
+          image(
+            {
+              url,
+            },
+            imageStyle,
+            [],
+          ),
+        ],
+      ),
+    ],
+  )

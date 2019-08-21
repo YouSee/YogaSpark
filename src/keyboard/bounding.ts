@@ -108,6 +108,7 @@ export const isElementCloser = (
     activeElement: ViewElement,
   ) => boolean,
   getPrimaryAxisValue: (viewElement: ViewElement) => number,
+  getSecondaryAxisValue: (viewElement: ViewElement) => number,
   previousViewElement?: ViewElement,
 ): boolean => {
   if (isInSelectableArea(viewElement, activeElement)) {
@@ -119,6 +120,19 @@ export const isElementCloser = (
       getPrimaryAxisValue(previousViewElement) -
         getPrimaryAxisValue(activeElement),
     )
+    // should handle elements with same distance on primary axis
+    if (currentDistance === previousDistance) {
+      const secondAxis = getSecondaryAxisValue(viewElement)
+      const secondActiveAxis = getSecondaryAxisValue(activeElement)
+      const secondPreviousAxis = getSecondaryAxisValue(previousViewElement)
+
+      const currentSecondaryDistance = Math.abs(secondAxis - secondActiveAxis)
+      const previousSecondDistance = Math.abs(
+        secondPreviousAxis - secondActiveAxis,
+      )
+
+      return currentSecondaryDistance < previousSecondDistance
+    }
     return currentDistance < previousDistance
   }
   return false

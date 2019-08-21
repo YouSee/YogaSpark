@@ -1,8 +1,13 @@
 import { YogaNode } from 'yoga-layout'
 import { NodeLayout, Style } from '../yoga/types'
-import { SparkObjectTypes, SparkObject } from '../spark/types'
+import { SparkObjectTypes, SparkObject, SparkTween } from '../spark/types'
 
 export type OnRef = (nodeLayout: NodeLayout) => void
+
+export interface Animation {
+  type: SparkTween
+  time: number
+}
 export interface Props {
   url?: string
   text?: string
@@ -14,8 +19,9 @@ export interface Props {
   active?: boolean
   key?: string
   onRef?: OnRef
+  animation?: Animation
   onClick?: () => void
-  [key: string]: string | boolean | number | OnRef
+  [key: string]: string | boolean | number | OnRef | Animation
 }
 
 export interface State {

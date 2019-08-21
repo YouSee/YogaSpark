@@ -25,12 +25,18 @@ module.exports = {
     // prettier
     'prettier/prettier': ['error'],
     // TypeScript
-    '@typescript-eslint/no-unused-vars': 'error',
     '@typescript-eslint/explicit-member-accessibility': 'off',
     '@typescript-eslint/no-object-literal-type-assertion': 'off',
     '@typescript-eslint/prefer-interface': 'off',
     '@typescript-eslint/camelcase': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        varsIgnorePattern: '^_.*',
+        argsIgnorePattern: '^_.*',
+      },
+    ],
     // prefer default export
     'import/no-default-export': 2,
     'import/prefer-default-export': 0,

@@ -3,9 +3,10 @@ import {
   getChildrenMaxLength,
   getObjectDiff,
   translateYogaToSparkLayoutKeys,
+  getAnimationWithDefault,
   recursivelyRenderNodes,
 } from '.'
-import { SparkObjectTypes, SparkScene, SparkObject } from './types'
+import { SparkObjectTypes, SparkScene, SparkObject, SparkTween } from './types'
 import { ViewElement } from '../components/types'
 import { getObject, getScene } from './index.mock'
 
@@ -60,6 +61,13 @@ test('Should return spark keys for yoga layout', () => {
       height: 20,
     }),
   ).toEqual({ w: 20, h: 20, x: 0, y: 0 })
+})
+
+test('Should return animation or default animation if no animation is applied', () => {
+  expect(getAnimationWithDefault()).toEqual([0, SparkTween.EASE_IN_BACK])
+  expect(
+    getAnimationWithDefault({ time: 1, type: SparkTween.EASE_IN_CUBIC }),
+  ).toEqual([1, SparkTween.EASE_IN_CUBIC])
 })
 
 test('should create element if there is no old node', () => {

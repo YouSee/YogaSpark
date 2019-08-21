@@ -30,7 +30,7 @@ test('Should call render function with state hooks getState and setState', () =>
 test('Should return ViewElement for scene', () => {
   const style: Style = { width: 666 }
 
-  expect(scene(style, [])).toEqual(
+  expect(scene(style, { mask: true }, [])).toEqual(
     getViewElement(SparkObjectTypes.Scene, style, { mask: true }),
   )
 })
@@ -58,6 +58,6 @@ test('Should return ViewElement for text', () => {
   const props: Props = { text: 'some text...' }
 
   expect(text(props, style, [])).toEqual(
-    getViewElement(SparkObjectTypes.Text, style, props),
+    getViewElement(SparkObjectTypes.TextBox, style, props),
   )
 })

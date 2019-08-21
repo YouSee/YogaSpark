@@ -18,8 +18,11 @@ export const container = (
   return render(getState, setState)
 }
 
-export const scene = (style: Style, children: ViewElement[]): ViewElement =>
-  createNodeTree(SparkObjectTypes.Scene, { mask: true }, style, children)
+export const scene = (
+  style: Style,
+  props: Props,
+  children: ViewElement[],
+): ViewElement => createNodeTree(SparkObjectTypes.Scene, props, style, children)
 
 export const view = (
   props: Props,
@@ -37,4 +40,5 @@ export const text = (
   props: Props,
   style: Style,
   children: ViewElement[],
-): ViewElement => createNodeTree(SparkObjectTypes.Text, props, style, children)
+): ViewElement =>
+  createNodeTree(SparkObjectTypes.TextBox, props, style, children)
