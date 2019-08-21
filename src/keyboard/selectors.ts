@@ -42,6 +42,7 @@ export const findNewElementsSelector = (
               primaryAxisSelectorPositive,
             ),
             getPrimaryAxisForLeftAndRight,
+            getPrimaryAxisForDownAndUp,
             previousViewElement,
           )
         ) {
@@ -59,6 +60,7 @@ export const findNewElementsSelector = (
               primaryAxisSelectorNegative,
             ),
             getPrimaryAxisForLeftAndRight,
+            getPrimaryAxisForDownAndUp,
             previousViewElement,
           )
         ) {
@@ -76,6 +78,7 @@ export const findNewElementsSelector = (
               primaryAxisSelectorNegative,
             ),
             getPrimaryAxisForDownAndUp,
+            getPrimaryAxisForLeftAndRight,
             previousViewElement,
           )
         ) {
@@ -93,6 +96,7 @@ export const findNewElementsSelector = (
               primaryAxisSelectorPositive,
             ),
             getPrimaryAxisForDownAndUp,
+            getPrimaryAxisForLeftAndRight,
             previousViewElement,
           )
         ) {

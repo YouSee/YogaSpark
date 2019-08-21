@@ -128,6 +128,7 @@ test('Should return true if the element is in the bounding box and there is no p
       activeElement,
       isElementInBoxInstance,
       getPrimaryAxisForLeftAndRight,
+      getPrimaryAxisForDownAndUp,
     ),
   ).toBeTruthy()
 })
@@ -149,14 +150,15 @@ test('Should return true if the element is in the bounding box and its closer th
       activeElement,
       isElementInBoxInstance,
       getPrimaryAxisForLeftAndRight,
+      getPrimaryAxisForDownAndUp,
       previousElement,
     ),
   ).toBeTruthy()
 })
 
-test('Should return false if the element is in the bounding box and its further away than the previous element', () => {
-  const sparkObjectPrevious: SparkObject = getObject(60, 5, 50, 50)
-  const sparkObjectCurrent: SparkObject = getObject(120, 5, 50, 50)
+test('Should return true if the element is in the bounding box and its primary axis is equal, but the secondary is closer', () => {
+  const sparkObjectPrevious: SparkObject = getObject(120, 15, 50, 50)
+  const sparkObjectCurrent: SparkObject = getObject(120, 10, 50, 50)
   const sparkObjectActive: SparkObject = getObject(10, 5, 50, 50)
   const previousElement: ViewElement = getViewElement(sparkObjectPrevious)
   const viewElement: ViewElement = getViewElement(sparkObjectCurrent)
@@ -171,6 +173,30 @@ test('Should return false if the element is in the bounding box and its further 
       activeElement,
       isElementInBoxInstance,
       getPrimaryAxisForLeftAndRight,
+      getPrimaryAxisForDownAndUp,
+      previousElement,
+    ),
+  ).toBeTruthy()
+})
+
+test('Should return false if the element is in the bounding box and its primary axis is equal, but the secondary is further away', () => {
+  const sparkObjectPrevious: SparkObject = getObject(120, 10, 50, 50)
+  const sparkObjectCurrent: SparkObject = getObject(120, 15, 50, 50)
+  const sparkObjectActive: SparkObject = getObject(10, 5, 50, 50)
+  const previousElement: ViewElement = getViewElement(sparkObjectPrevious)
+  const viewElement: ViewElement = getViewElement(sparkObjectCurrent)
+  const activeElement: ViewElement = getViewElement(sparkObjectActive)
+  const isElementInBoxInstance = isElementSelectableInBox(
+    getBoundingBoxRight,
+    primaryAxisSelectorPositive,
+  )
+  expect(
+    isElementCloser(
+      viewElement,
+      activeElement,
+      isElementInBoxInstance,
+      getPrimaryAxisForLeftAndRight,
+      getPrimaryAxisForDownAndUp,
       previousElement,
     ),
   ).toBeFalsy()
@@ -191,6 +217,7 @@ test('Should return false if the element is not in the bounding box', () => {
       activeElement,
       isElementInBoxInstance,
       getPrimaryAxisForLeftAndRight,
+      getPrimaryAxisForDownAndUp,
     ),
   ).toBeFalsy()
 })
