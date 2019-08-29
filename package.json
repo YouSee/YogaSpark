@@ -1,15 +1,17 @@
 {
   "name": "yoga-spark",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "",
   "main": "dist/bundle.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "start": "webpack --watch --mode=production --config webpack.config.js",
     "start:example": "webpack --watch --mode=production --config webpack.config.dev.js",
     "build": "webpack --mode=production --config webpack.config.js",
     "test": "jest --coverage",
     "eslint-check": "eslint --fix --ext .ts ./src/**",
-    "prepare": "npm run build"
+    "prepare": "npm run build.types && npm run build",
+    "build.types": "tsc src/index.ts --declaration --outDir dist/ --emitDeclarationOnly --declarationMap"
   },
   "files": [
     "dist"
@@ -41,7 +43,7 @@
     "prettier": "^1.18.2",
     "source-map-loader": "^0.2.4",
     "ts-jest": "^24.0.2",
-    "typescript": "^3.5.1",
+    "typescript": "^3.5.3",
     "webpack": "^4.32.2",
     "webpack-cli": "^3.3.2",
     "webpack-plugin-spark": "^1.0.3"
