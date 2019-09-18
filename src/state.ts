@@ -15,7 +15,7 @@ const appState = (): {
   let sparkScene: SparkScene
   let previousViews: ViewElement
   let keysMap: KeysMap
-  let activeElementKey = 'roundedImage/0'
+  let activeElementKey = 'asset/0'
   const getScene = () => sparkScene
   const setScene = (scene: SparkScene) => {
     sparkScene = scene
