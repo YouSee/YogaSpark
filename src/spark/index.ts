@@ -48,10 +48,39 @@ export const getAnimationWithDefault = (
   return [0, SparkTween.EASE_IN_BACK]
 }
 
+export const isInView = (element: NodeLayout, boundingBox: NodeLayout) => {
+  const { left, top, width, height, bottom } = boundingBox
+  const {
+    left: elementLeft,
+    top: elementTop,
+    width: elementWidth,
+    height: elementHeight,
+    bottom: elementBottom,
+  } = element
+  const rightEdge = left + width
+  const elementRightEdge = elementLeft + elementWidth
+
+  const bottomEdge = top + height + bottom
+  const elementBottomEdge = elementTop + elementHeight + elementBottom
+
+  const leftSideInBounding = elementRightEdge >= left
+  const rightSideInBounding = elementLeft <= rightEdge
+  const topInBounding = elementBottomEdge >= top
+  const bottomInBounding = elementTop <= bottomEdge
+
+  return (
+    leftSideInBounding &&
+    rightSideInBounding &&
+    topInBounding &&
+    bottomInBounding
+  )
+}
+
 export const createElement = (
   scene: SparkScene,
   parent: SparkObject,
   nodeObject: ViewElement,
+  boundingBox: NodeLayout,
 ): ViewElement => {
   const {
     type,
@@ -60,6 +89,8 @@ export const createElement = (
   } = nodeObject
 
   const nodeLayout: NodeLayout = node.getComputedLayout()
+
+  if (!isInView(nodeLayout, boundingBox)) return null
 
   const element = scene.create({
     t: type,
@@ -121,16 +152,17 @@ export const destroyElement = (nodeObject: ViewElement) => {
 export const recursivelyRenderNodes = (
   scene: SparkScene,
   parent: SparkObject,
+  boundingBox: NodeLayout,
   newNode: ViewElement,
   oldNode?: ViewElement,
 ): ViewElement => {
   let newParent: ViewElement
   // in case of first render
-  if (!oldNode) newParent = createElement(scene, parent, newNode)
+  if (!oldNode) newParent = createElement(scene, parent, newNode, boundingBox)
   // when we have a new and old node, but new nodes type is different
   if (oldNode && newNode && oldNode.type !== newNode.type) {
     destroyElement(oldNode)
-    newParent = createElement(scene, parent, newNode)
+    newParent = createElement(scene, parent, newNode, boundingBox)
   }
   // when we have a new and old node and we wanna update style or props
   if (oldNode && newNode) {
@@ -154,6 +186,7 @@ export const recursivelyRenderNodes = (
         const child = recursivelyRenderNodes(
           scene,
           newParent ? newParent.element : null,
+          boundingBox,
           newNode && newNode.children[idx],
           oldNode && oldNode.children[idx],
         )

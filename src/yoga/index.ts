@@ -1,5 +1,5 @@
 import { Node, YogaNode } from 'yoga-layout'
-import { EDGES, Style } from './types'
+import { EDGES, Style, NodeLayout } from './types'
 import { Props, ViewElement } from '../components/types'
 import { SparkScene, SparkObjectTypes } from '../spark/types'
 import { recursivelyRenderNodes } from '../spark'
@@ -69,5 +69,6 @@ export const initView = (
   root.h = WINDOW_HEIGHT
   root.w = WINDOW_WIDTH
   views.node.calculateLayout(0, 0, 1)
-  return recursivelyRenderNodes(scene, root, views, previousViews)
+  const boundingBox: NodeLayout = views.node.getComputedLayout()
+  return recursivelyRenderNodes(scene, root, boundingBox, views, previousViews)
 }

@@ -4,11 +4,13 @@ import {
   getObjectDiff,
   translateYogaToSparkLayoutKeys,
   getAnimationWithDefault,
+  isInView,
   recursivelyRenderNodes,
 } from '.'
 import { SparkObjectTypes, SparkScene, SparkObject, SparkTween } from './types'
 import { ViewElement } from '../components/types'
 import { getObject, getScene } from './index.mock'
+import { NodeLayout } from '../yoga/types'
 
 const getViewElement = (children: ViewElement[]): ViewElement => ({
   type: SparkObjectTypes.Rect,
@@ -16,6 +18,21 @@ const getViewElement = (children: ViewElement[]): ViewElement => ({
   props: {},
   style: {},
   children,
+})
+
+const setWidthAndHeight = (viewElement: ViewElement): void => {
+  viewElement.node.setHeight(10)
+  viewElement.node.setWidth(10)
+  viewElement.node.calculateLayout(0, 0, 1)
+}
+
+const getNodeLayout = (): NodeLayout => ({
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: 0,
+  width: 1920,
+  height: 980,
 })
 
 test('Should get the length of the longest array', () => {
@@ -70,13 +87,51 @@ test('Should return animation or default animation if no animation is applied', 
   ).toEqual([1, SparkTween.EASE_IN_CUBIC])
 })
 
+test.each([
+  [true, 0, 0, 0, 100, 192, 280], // in view
+  [false, 0, 0, 981, 100, 192, 260], // bottom is larger than bounding top
+  [true, 970, 0, 0, 100, 192, 260], // bottom goes out of bounding but starts inside
+  [false, -200, 0, 0, 100, 192, 260], // left is less than left incl. width
+  [true, -192, 0, 0, 100, 192, 260], // left is less than bounding left, but width makes it in bounding box
+  [false, 1921, 0, 0, 100, 192, 260], // right side is larger than bounding box
+  [true, 1900, 0, 0, 100, 192, 260], // right side goes out of bounding but starts inside
+  [false, 0, 0, -400, 100, 192, 260], // top is less than bounding top
+  [true, 0, 0, -200, 100, 192, 260], // top is less than bounding top but ends inside
+])(
+  'should return %s if element is in bounding box',
+  (
+    expected: boolean,
+    left: number,
+    right: number,
+    top: number,
+    bottom: number,
+    width: number,
+    height: number,
+  ) => {
+    const boundingBoxLayout: NodeLayout = getNodeLayout()
+    const element: NodeLayout = {
+      left,
+      right,
+      top,
+      bottom,
+      width,
+      height,
+    }
+
+    expect(isInView(element, boundingBoxLayout)).toBe(expected)
+  },
+)
+
 test('should create element if there is no old node', () => {
   const viewElementWithNoChildren: ViewElement = getViewElement([])
+  setWidthAndHeight(viewElementWithNoChildren)
   const mockScene: SparkScene = getScene()
   const mockObject: SparkObject = getObject()
+  const nodeLayout: NodeLayout = getNodeLayout()
   const renderedViewElement: ViewElement = recursivelyRenderNodes(
     mockScene,
     mockObject,
+    nodeLayout,
     viewElementWithNoChildren,
   )
   expect(mockScene.create).toHaveBeenCalledTimes(1)
@@ -85,20 +140,22 @@ test('should create element if there is no old node', () => {
 
 test('should not update element if there is an old node and new node has the same style', () => {
   const viewElementWithNoChildren: ViewElement = getViewElement([])
-  viewElementWithNoChildren.node.setHeight(10)
-  viewElementWithNoChildren.node.setWidth(10)
-  viewElementWithNoChildren.node.calculateLayout(0, 0, 1)
+  setWidthAndHeight(viewElementWithNoChildren)
 
   const mockScene: SparkScene = getScene()
   const mockObject: SparkObject = getObject()
+  const nodeLayout: NodeLayout = getNodeLayout()
+
   const renderedViewElement: ViewElement = recursivelyRenderNodes(
     mockScene,
     mockObject,
+    nodeLayout,
     viewElementWithNoChildren,
   )
   recursivelyRenderNodes(
     mockScene,
     mockObject,
+    nodeLayout,
     viewElementWithNoChildren,
     renderedViewElement,
   )
@@ -109,15 +166,16 @@ test('should not update element if there is an old node and new node has the sam
 
 test('should update element if there is an old node and new node has new style', () => {
   const viewElementWithNoChildren: ViewElement = getViewElement([])
-  viewElementWithNoChildren.node.setHeight(10)
-  viewElementWithNoChildren.node.setWidth(10)
-  viewElementWithNoChildren.node.calculateLayout(0, 0, 1)
+  setWidthAndHeight(viewElementWithNoChildren)
 
   const mockScene: SparkScene = getScene()
   const mockObject: SparkObject = getObject()
+  const nodeLayout: NodeLayout = getNodeLayout()
+
   const renderedViewElement: ViewElement = recursivelyRenderNodes(
     mockScene,
     mockObject,
+    nodeLayout,
     viewElementWithNoChildren,
   )
   viewElementWithNoChildren.node.setHeight(20)
@@ -126,6 +184,7 @@ test('should update element if there is an old node and new node has new style',
   recursivelyRenderNodes(
     mockScene,
     mockObject,
+    nodeLayout,
     viewElementWithNoChildren,
     renderedViewElement,
   )
@@ -137,15 +196,15 @@ test('should update element if there is an old node and new node has new style',
 test('should update element if there is an old node and new node has new props', () => {
   const viewElementWithNoChildren: ViewElement = getViewElement([])
   viewElementWithNoChildren.props = { text: 'nope' }
-  viewElementWithNoChildren.node.setHeight(10)
-  viewElementWithNoChildren.node.setWidth(10)
-  viewElementWithNoChildren.node.calculateLayout(0, 0, 1)
+  setWidthAndHeight(viewElementWithNoChildren)
 
   const mockScene: SparkScene = getScene()
   const mockObject: SparkObject = getObject()
+  const nodeLayout: NodeLayout = getNodeLayout()
   const renderedViewElement: ViewElement = recursivelyRenderNodes(
     mockScene,
     mockObject,
+    nodeLayout,
     viewElementWithNoChildren,
   )
 
@@ -153,6 +212,7 @@ test('should update element if there is an old node and new node has new props',
   const updatedViewElement: ViewElement = recursivelyRenderNodes(
     mockScene,
     mockObject,
+    nodeLayout,
     viewElementWithNoChildren,
     renderedViewElement,
   )
@@ -164,16 +224,21 @@ test('should update element if there is an old node and new node has new props',
 
 test('should delete element if there is no new node', () => {
   const viewElementWithNoChildren: ViewElement = getViewElement([])
+  setWidthAndHeight(viewElementWithNoChildren)
+
   const mockScene: SparkScene = getScene()
   const mockObject: SparkObject = getObject()
+  const nodeLayout: NodeLayout = getNodeLayout()
   const renderedViewElement: ViewElement = recursivelyRenderNodes(
     mockScene,
     mockObject,
+    nodeLayout,
     viewElementWithNoChildren,
   )
   const removedViewElement = recursivelyRenderNodes(
     mockScene,
     mockObject,
+    nodeLayout,
     null,
     renderedViewElement,
   )
@@ -186,11 +251,15 @@ test('should delete element if there is no new node', () => {
 
 test('should delete element and create a new one if new element has different type', () => {
   const viewElementWithNoChildren: ViewElement = getViewElement([])
+  setWidthAndHeight(viewElementWithNoChildren)
+
   const mockScene: SparkScene = getScene()
   const mockObject: SparkObject = getObject()
+  const nodeLayout: NodeLayout = getNodeLayout()
   const renderedViewElement: ViewElement = recursivelyRenderNodes(
     mockScene,
     mockObject,
+    nodeLayout,
     viewElementWithNoChildren,
   )
 
@@ -198,6 +267,7 @@ test('should delete element and create a new one if new element has different ty
   const reRenderedViewElement = recursivelyRenderNodes(
     mockScene,
     mockObject,
+    nodeLayout,
     viewElementWithNoChildren,
     renderedViewElement,
   )
@@ -212,13 +282,17 @@ test('should create element and all children', () => {
   const viewElementWithChildren: ViewElement = getViewElement(
     Array.from(Array(2), () => getViewElement([])),
   )
+  setWidthAndHeight(viewElementWithChildren)
+  viewElementWithChildren.children.map(child => setWidthAndHeight(child))
 
   const mockScene: SparkScene = getScene()
   const mockObject: SparkObject = getObject()
+  const nodeLayout: NodeLayout = getNodeLayout()
 
   const renderedViewElement: ViewElement = recursivelyRenderNodes(
     mockScene,
     mockObject,
+    nodeLayout,
     viewElementWithChildren,
   )
 
