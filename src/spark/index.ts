@@ -60,7 +60,7 @@ export const isInView = (element: NodeLayout, boundingBox: NodeLayout) => {
   const rightEdge = left + width
   const elementRightEdge = elementLeft + elementWidth
 
-  const bottomEdge = top + height + bottom
+  const bottomEdge = Math.abs(top) + height
   const elementBottomEdge = elementTop + elementHeight + elementBottom
 
   const leftSideInBounding = elementRightEdge >= left
@@ -158,7 +158,11 @@ export const recursivelyRenderNodes = (
 ): ViewElement => {
   let newParent: ViewElement
   // in case of first render
-  if (!oldNode) newParent = createElement(scene, parent, newNode, boundingBox)
+  if (!oldNode) {
+    newParent = createElement(scene, parent, newNode, boundingBox)
+    // if not rendered because of lazy load
+    if (!newParent) return null
+  }
   // when we have a new and old node, but new nodes type is different
   if (oldNode && newNode && oldNode.type !== newNode.type) {
     destroyElement(oldNode)
