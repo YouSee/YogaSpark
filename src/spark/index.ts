@@ -49,7 +49,7 @@ export const getAnimationWithDefault = (
 }
 
 export const isInView = (element: NodeLayout, boundingBox: NodeLayout) => {
-  const { left, top, width, height, bottom } = boundingBox
+  const { left, top, width, height } = boundingBox
   const {
     left: elementLeft,
     top: elementTop,
